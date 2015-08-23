@@ -1,4 +1,5 @@
-- Extract classes into their own files.
+- Add tests
+- DRY `master_only?`, `first_line_only?`, etc.
 - Separate "second line must be blank" to its own validation.
 - Disallow first line to end with a period.
 - Configuration to disable validations.
