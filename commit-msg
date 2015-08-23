@@ -1,4 +1,0 @@
-#!/bin/sh
-
-exec < /dev/tty
-./.git/hooks/fit_commit.rb $1

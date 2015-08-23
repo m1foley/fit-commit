@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+#
+# This hook will attempt to setup your environment before running checks.
+
+cmd=`git config fit-commit.ruby 2>/dev/null`
+if   test -n "${cmd}"
+then true
+elif which rvm   >/dev/null 2>/dev/null
+then cmd="rvm default do ruby"
+elif which rbenv >/dev/null 2>/dev/null
+then cmd="rbenv exec ruby"
+else cmd="ruby"
+fi
+
+export rvm_silence_path_mismatch_check_flag=1
+export MESSAGE_PATH=$1
+
+exec < /dev/tty
+${cmd} -rrubygems -e '
+  begin
+    require "fit-commit"
+    true
+  rescue LoadError => e
+    $stderr.puts <<-MESSAGE
+fit-commit: WARNING: Skipping checks because: #{e}
+fit-commit: Did you set your Ruby version?
+MESSAGE
+    false
+  end and FitCommit.run
+'
