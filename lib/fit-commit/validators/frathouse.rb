@@ -9,7 +9,7 @@ module FitCommit
         end
       end
 
-      # TODO
+      # TODO use the swearjar gem
       def frat_house?(text)
         text =~ /fuck(ing)?/i
       end
