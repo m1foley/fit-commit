@@ -15,7 +15,6 @@ fi
 export rvm_silence_path_mismatch_check_flag=1
 export MESSAGE_PATH=$1
 
-exec < /dev/tty
 ${cmd} -rrubygems -e '
   begin
     require "fit-commit"
@@ -27,4 +26,4 @@ fit-commit: Did you set your Ruby version?
 MESSAGE
     false
   end and FitCommit.run
-'
+' < /dev/tty
