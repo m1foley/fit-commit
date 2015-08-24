@@ -1,22 +1,25 @@
 # -*- encoding: utf-8 -*-
+require File.expand_path("../lib/fit-commit/version", __FILE__)
 
-Gem::Specification.new do |s|
-  s.name = %q{fit-commit}
-  s.version = "1.0.0"
+Gem::Specification.new do |gem|
+  gem.name               = "fit-commit"
+  gem.version            = FitCommit::VERSION
+  gem.license            = "MIT"
+  gem.authors            = ["Michael Foley"]
+  gem.email              = ["foley3@gmail.com"]
+  gem.homepage           = "https://github.com/m1foley/fit-commit"
+  gem.summary            = "Git commit message validator"
+  gem.description        = "Validates your Git commit messages, based largely on Tim Pope's authoritative guide"
 
-  s.authors = ["Mike Foley"]
-  s.default_executable = %q{fit-commit}
-  s.email = %q{dontneedmoreemail@example.com}
-  s.executables = ["fit-commit"]
-  s.extra_rdoc_files = ["README.md"]
-  s.files = Dir["bin/*", "lib/**/*", "templates/**/*"]
-  s.homepage = %q{http://github.com/m1foley/fit-commit}
-  s.rdoc_options = ["--main", "README.md"]
-  s.require_paths = ["lib"]
-  s.license = "MIT"
-  s.summary = "Validate your Git commit messages"
-  s.description = "A Git commit-msg hook to validate your Git commit messages"
-  s.post_install_message == <<-EOF
+  gem.files              = `git ls-files`.split("\n")
+  gem.executables        = ["fit-commit"]
+  gem.default_executable = "fit-commit"
+  gem.test_files         = `git ls-files -- test/*`.split("\n")
+  gem.require_paths      = ["lib"]
+  gem.extra_rdoc_files   = ["README.md"]
+  gem.rdoc_options       = ["--main", "README.md"]
+
+  gem.post_install_message == <<-EOF
     Thank you for installing fit-commit!
     Install the hook in each git repo you want to scan using:
 
