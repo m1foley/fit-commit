@@ -1,4 +1,4 @@
-require 'fit-commit/installer'
+require "fit-commit/installer"
 
 module FitCommit
   class Cli

@@ -14,5 +14,9 @@ module FitCommit
     def empty?
       text.empty?
     end
+
+    def self.from_array(text_array)
+      text_array.map.with_index(1) { |text, lineno| new(lineno, text) }
+    end
   end
 end

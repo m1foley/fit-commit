@@ -1,8 +1,6 @@
 # Mixin for adding errors & warnings
 module FitCommit
   module HasErrors
-    attr_writer :errors, :warnings
-
     def errors
       @errors ||= Hash.new([])
     end

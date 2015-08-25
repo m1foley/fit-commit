@@ -5,35 +5,47 @@ module FitCommit
   class Runner
     include FitCommit::HasErrors
 
+    attr_accessor :message_path, :branch_name, :stdout, :stdin
+    def initialize(message_path, branch_name, stdout = $stdout, stdin = $stdin)
+      self.message_path = message_path
+      self.branch_name = branch_name
+      self.stdout = stdout
+      self.stdin = stdin
+    end
+
     def run
-      exit(0) if empty_commit?
+      return true if empty_commit?
 
       run_all_validators
 
-      if [errors, warnings].any? { |e| !e.empty? }
-        unless errors.empty?
-          $stdout.puts lines
-          $stdout.print "\n"
-        end
+      return true if [errors, warnings].all?(&:empty?)
 
-        (errors.keys | warnings.keys).sort.each do |lineno|
-          errors[lineno].each do |error|
-            $stdout.puts "#{lineno}: Error: #{error}"
-          end
-          warnings[lineno].each do |warning|
-            $stdout.puts "#{lineno}: Warning: #{warning}"
-          end
-        end
-
-        unless errors.empty?
-          $stdout.print "\nForce commit? [y/n] "
-          exit(1) unless $stdin.gets =~ /y/i
-        end
-
-        $stdout.print "\n"
+      unless errors.empty?
+        stdout.puts lines
+        stdout.print "\n"
       end
+
+      (errors.keys | warnings.keys).sort.each do |lineno|
+        errors[lineno].each do |error|
+          stdout.puts "#{lineno}: Error: #{error}"
+        end
+        warnings[lineno].each do |warning|
+          stdout.puts "#{lineno}: Warning: #{warning}"
+        end
+      end
+
+      allow_commit = errors.empty?
+
+      unless allow_commit
+        stdout.print "\nForce commit? [y/n] "
+        return false unless stdin.gets =~ /y/i
+        allow_commit = true
+      end
+
+      stdout.print "\n"
+      allow_commit
     rescue Interrupt # Ctrl-c
-      exit(1)
+      false
     end
 
     private
@@ -49,13 +61,12 @@ module FitCommit
     end
 
     def lines
-      @lines ||= File.open(message_path, "r").read.lines.map(&:chomp).
-        reject(&method(:comment?)).
-        map.with_index(1) { |text, lineno| FitCommit::Line.new(lineno, text) }
+      @lines ||= FitCommit::Line.from_array(relevant_message_array)
     end
 
-    def message_path
-      ENV.fetch("MESSAGE_PATH")
+    def relevant_message_array
+      File.open(message_path, "r").read.lines.map(&:chomp).
+        reject(&method(:comment?))
     end
 
     def comment?(text)
@@ -64,10 +75,6 @@ module FitCommit
 
     def empty_commit?
       lines.all?(&:empty?)
-    end
-
-    def branch_name
-      @branch_name ||= `git branch | grep '^\*' | cut -b3-`.strip
     end
   end
 end

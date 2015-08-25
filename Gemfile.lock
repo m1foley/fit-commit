@@ -1,0 +1,21 @@
+PATH
+  remote: .
+  specs:
+    fit-commit (1.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    minitest (5.8.0)
+    rake (10.4.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  fit-commit!
+  minitest
+  rake
+
+BUNDLED WITH
+   1.10.6
