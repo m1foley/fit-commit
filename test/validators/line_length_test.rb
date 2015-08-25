@@ -12,8 +12,7 @@ describe FitCommit::Validators::LineLength do
       let(:commit_msg) { "\n\nbar" }
       it "has error" do
         validator.validate
-        refute_empty validator.errors
-        refute_empty validator.errors[1]
+        assert_equal 1, validator.errors[1].size
         assert_empty validator.warnings
       end
     end
@@ -31,8 +30,7 @@ describe FitCommit::Validators::LineLength do
       let(:commit_msg) { "foo\nbar" }
       it "has error" do
         validator.validate
-        refute_empty validator.errors
-        refute_empty validator.errors[2]
+        assert_equal 1, validator.errors[2].size
         assert_empty validator.warnings
       end
     end

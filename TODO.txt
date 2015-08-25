@@ -1,4 +1,3 @@
-- Finish Frathouse
-- DRY `master_only?`, `first_line_only?`, etc.
-- Disallow first line to end with a period.
+- Finish Frat House validator.
+- Add validator methods to specify the branches/linenos for which it's valid.
 - Configuration to disable validations.

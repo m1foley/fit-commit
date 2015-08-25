@@ -3,7 +3,7 @@ require "fit-commit/validators/wip"
 
 describe FitCommit::Validators::Wip do
   let(:validator) { FitCommit::Validators::Wip.new(commit_lines, branch_name) }
-  let(:commit_lines) { FitCommit::Line.from_array([commit_msg]) }
+  let(:commit_lines) { FitCommit::Line.from_array(commit_msg.split("\n")) }
 
   describe "master branch" do
     let(:branch_name) { "master" }
@@ -11,8 +11,7 @@ describe FitCommit::Validators::Wip do
       let(:commit_msg) { "WIP foo" }
       it "has error" do
         validator.validate
-        refute_empty validator.errors
-        refute_empty validator.errors[1]
+        assert_equal 1, validator.errors[1].size
         assert_empty validator.warnings
       end
     end

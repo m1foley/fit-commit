@@ -11,8 +11,7 @@ describe FitCommit::Validators::Tense do
     let(:commit_msg) { "Changed something\nhi" }
     it "has error" do
       validator.validate
-      refute_empty validator.errors
-      refute_empty validator.errors[1]
+      assert_equal 1, validator.errors[1].size
       assert_empty validator.warnings
     end
   end

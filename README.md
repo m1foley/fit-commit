@@ -43,6 +43,7 @@ Alternatively you can configure fit-commit to use the `current` rvm gemset:
 
 * **Line Length**: All lines must be <= 72 chars (URLs excluded). First line should be <= 50 chars. Second line must be blank.
 * **Tense**: Message must use present imperative tense.
+* **Summary Period**: Do not end your summary with a period.
 * **WIP**: Do not commit WIPs to master.
 * **Frat House**: No frat house commit messages in master.
 
