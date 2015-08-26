@@ -2,14 +2,21 @@
 #
 # This hook will attempt to setup your environment before running checks.
 
-if which rvm   >/dev/null 2>/dev/null
+if which rvm >&/dev/null
 then cmd="rvm default do ruby"
-elif which rbenv >/dev/null 2>/dev/null
+elif which rbenv >&/dev/null
 then cmd="rbenv exec ruby"
 else cmd="ruby"
 fi
 
 export COMMIT_MESSAGE_PATH=$1
+
+if (! [[ "$COMMIT_MESSAGE_PATH" ]] ); then
+  >&2 echo 'fit-commit: WARNING: Skipping checks because the Git hook was not passed the'
+  >&2 echo 'fit-commit: commit message file path. This is usually `.git/COMMIT_EDITMSG`.'
+  >&2 echo 'fit-commit: Please submit a bug report with the project.'
+  exit 0
+fi
 
 ${cmd} -rrubygems -e '
   begin
