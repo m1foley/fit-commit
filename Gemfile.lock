@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fit-commit (1.0.0)
-      swearjar
+      swearjar (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -18,8 +18,8 @@ PLATFORMS
 
 DEPENDENCIES
   fit-commit!
-  minitest
-  rake
+  minitest (~> 5.8)
+  rake (~> 10.4)
 
 BUNDLED WITH
    1.10.6
