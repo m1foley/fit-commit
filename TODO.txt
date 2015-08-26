@@ -1,3 +1,1 @@
-- Finish Frat House validator.
-- Add validator methods to specify the branches/linenos for which it's valid.
 - Configuration to disable validations.

@@ -28,6 +28,8 @@ Gem::Specification.new do |gem|
     Read more: https://github.com/m1foley/fit-commit#readme
   EOF
 
+  gem.add_dependency("swearjar")
+
   gem.add_development_dependency("minitest")
   gem.add_development_dependency("rake")
 end

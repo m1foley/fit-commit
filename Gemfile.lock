@@ -2,12 +2,16 @@ PATH
   remote: .
   specs:
     fit-commit (1.0.0)
+      swearjar
 
 GEM
   remote: https://rubygems.org/
   specs:
+    fuzzyhash (0.0.11)
     minitest (5.8.0)
     rake (10.4.2)
+    swearjar (1.0.0)
+      fuzzyhash (~> 0.0.11)
 
 PLATFORMS
   ruby
