@@ -29,16 +29,6 @@ Install the hook in your Git repo:
 
 This creates a `.git/hooks/commit-msg` script which will automatically check your Git commit messages.
 
-### RVM
-
-If you are using rvm you need to install fit-commit into the `default` gemset, because it does not use the `current` environment:
-
-    $ rvm default do gem install fit-commit
-
-Alternatively you can configure fit-commit to use the `current` rvm gemset:
-
-    $ git config fit-commit.ruby "rvm `rvm current` do ruby"
-
 ## Validations
 
 * **Line Length**: All lines must be <= 72 chars (URLs excluded). First line should be <= 50 chars. Second line must be blank.

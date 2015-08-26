@@ -12,7 +12,7 @@ module FitCommit
   end
 
   def self.message_path
-    ENV.fetch("MESSAGE_PATH")
+    ENV.fetch("COMMIT_MESSAGE_PATH")
   end
 
   def self.branch_name
