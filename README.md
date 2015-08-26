@@ -1,6 +1,6 @@
 # Fit Commit
 
-Validates your Git commit messages, based largely on Tim Pope's [authoritative guide](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+A Git hook to validate your commit messages, based largely on Tim Pope's [authoritative guide](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
 ## Example
 
@@ -16,6 +16,10 @@ foobar foobar foobar foobar foobar foobar foobar foobar foobar foobar foobar
 
 Force commit? [y/n] ▊
 ```
+
+## Prerequisites
+
+* Ruby
 
 ## Installation
 
