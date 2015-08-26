@@ -15,27 +15,11 @@ module FitCommit
 
     def run
       return true if empty_commit?
-
-      run_all_validators
-
+      run_validators
       return true if [errors, warnings].all?(&:empty?)
-
-      unless errors.empty?
-        stdout.puts lines
-        stdout.print "\n"
-      end
-
-      (errors.keys | warnings.keys).sort.each do |lineno|
-        errors[lineno].each do |error|
-          stdout.puts "#{lineno}: Error: #{error}"
-        end
-        warnings[lineno].each do |warning|
-          stdout.puts "#{lineno}: Warning: #{warning}"
-        end
-      end
+      print_results
 
       allow_commit = errors.empty?
-
       unless allow_commit
         stdout.print "\nForce commit? [y/n] "
         return false unless stdin.gets =~ /y/i
@@ -50,7 +34,7 @@ module FitCommit
 
     private
 
-    def run_all_validators
+    def run_validators
       Dir[File.dirname(__FILE__) + "/validators/*.rb"].each { |file| require file }
       FitCommit::Validators::Base.all.each do |validator_class|
         validator = validator_class.new(lines, branch_name)
@@ -60,13 +44,32 @@ module FitCommit
       end
     end
 
-    def lines
-      @lines ||= FitCommit::Line.from_array(relevant_message_array)
+    def print_results
+      unless errors.empty?
+        stdout.puts lines
+        stdout.print "\n"
+      end
+
+      (errors.keys | warnings.keys).sort.each do |lineno|
+        errors[lineno].each do |error|
+          stdout.puts "#{lineno}: Error: #{error}"
+        end
+        warnings[lineno].each do |warning|
+          stdout.puts "#{lineno}: Warning: #{warning}"
+        end
+      end
     end
 
-    def relevant_message_array
-      File.open(message_path, "r").read.lines.map(&:chomp).
-        reject(&method(:comment?))
+    def lines
+      @lines ||= FitCommit::Line.from_array(relevant_message_lines)
+    end
+
+    def relevant_message_lines
+      message_text.lines.map(&:chomp).reject(&method(:comment?))
+    end
+
+    def message_text
+      File.open(message_path, "r").read
     end
 
     def comment?(text)
