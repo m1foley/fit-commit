@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files   = ["README.md"]
   gem.rdoc_options       = ["--main", "README.md"]
 
-  gem.post_install_message == <<-EOF
+  gem.post_install_message = <<-EOF
     Thank you for installing fit-commit!
     Install the hook in each git repo you want to scan using:
 
