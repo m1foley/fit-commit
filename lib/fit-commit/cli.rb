@@ -1,4 +1,5 @@
 require "fit-commit/installer"
+require "fit-commit/version"
 
 module FitCommit
   class Cli
@@ -12,6 +13,7 @@ module FitCommit
       if action_name == "install"
         FitCommit::Installer.new.install
       else
+        warn "fit-commit v#{FitCommit::VERSION}"
         warn "Usage: fit-commit install"
         false
       end
