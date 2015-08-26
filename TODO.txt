@@ -1,1 +1,2 @@
 - Configuration to disable validations.
+- `fit-commit uninstall`
