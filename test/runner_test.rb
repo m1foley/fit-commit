@@ -34,7 +34,7 @@ describe FitCommit::Runner do
   end
 
   describe "commit msg consists of all comments" do
-    let(:commit_msg) { "\n#hi\n#yo" }
+    let(:commit_msg) { "\n#hi\n#yo\n#" }
     it "returns truthy value without printing to stdout" do
       assert call_runner
       assert stdout.read.empty?
@@ -43,6 +43,19 @@ describe FitCommit::Runner do
 
   describe "commit msg is present but no errors" do
     let(:commit_msg) { "hello\n\nhi\n#" }
+    it "returns truthy value without printing to stdout" do
+      assert call_runner
+      assert stdout.read.empty?
+    end
+  end
+
+  describe "commit msg in verbose format" do
+    let(:commit_msg) do
+      ["foo", "", "#",
+        "# ------------------------ >8 ------------------------",
+        "this difftext should be ignored." * 3
+      ].join("\n")
+    end
     it "returns truthy value without printing to stdout" do
       assert call_runner
       assert stdout.read.empty?

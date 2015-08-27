@@ -64,16 +64,20 @@ module FitCommit
       @lines ||= FitCommit::Line.from_array(relevant_message_lines)
     end
 
+    GIT_VERBOSE_MARKER = "# ------------------------ >8 ------------------------"
+    COMMENT_REGEX = /\A#/
+
     def relevant_message_lines
-      message_text.lines.map(&:chomp).reject(&method(:comment?))
+      message_text.lines.each_with_object([]) do |line, relevant_lines|
+        line.chomp!
+        break relevant_lines if line == GIT_VERBOSE_MARKER
+        next if line =~ COMMENT_REGEX
+        relevant_lines << line.chomp
+      end
     end
 
     def message_text
       File.open(message_path, "r").read
-    end
-
-    def comment?(text)
-      text =~ /\A#/
     end
 
     def empty_commit?

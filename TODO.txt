@@ -1,4 +1,3 @@
-- Support `git commit -v`
 - Customize which are "business" branches (not just master)
 - Configuration to disable validations.
 - `fit-commit uninstall`
