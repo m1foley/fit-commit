@@ -77,7 +77,7 @@ module FitCommit
     end
 
     def message_text
-      File.open(message_path, "r").read
+      File.read(message_path)
     end
 
     def empty_commit?
