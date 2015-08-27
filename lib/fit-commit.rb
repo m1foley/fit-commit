@@ -17,6 +17,6 @@ module FitCommit
   end
 
   def self.branch_name
-    `git name-rev --name-only HEAD`.strip
+    ENV.fetch("GIT_BRANCH_NAME")
   end
 end

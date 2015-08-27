@@ -10,11 +10,17 @@ else cmd="ruby"
 fi
 
 export COMMIT_MESSAGE_PATH=$1
-
 if (! [[ "$COMMIT_MESSAGE_PATH" ]] ); then
   >&2 echo "fit-commit: WARNING: Skipping checks because the Git hook was not passed the"
   >&2 echo "fit-commit: commit message file path. This is usually \`.git/COMMIT_EDITMSG\`."
   >&2 echo "fit-commit: This hook was called via: $0 $*"
+  >&2 echo "fit-commit: Please submit a bug report with the project."
+  exit 0
+fi
+
+export GIT_BRANCH_NAME=`git name-rev --name-only HEAD`
+if (! [[ "$GIT_BRANCH_NAME" ]] ); then
+  >&2 echo "fit-commit: WARNING: Skipping checks because the Git branch cannot be determined."
   >&2 echo "fit-commit: Please submit a bug report with the project."
   exit 0
 fi
