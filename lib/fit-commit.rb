@@ -2,7 +2,8 @@ require "fit-commit/runner"
 
 module FitCommit
   def self.run
-    runner.run || exit(1)
+    exit_code = runner.run
+    exit(exit_code)
   end
 
   private

@@ -5,6 +5,9 @@ module FitCommit
   class Runner
     include FitCommit::HasErrors
 
+    EXIT_CODE_ALLOW_COMMIT  = 0
+    EXIT_CODE_REJECT_COMMIT = 1
+
     attr_accessor :message_path, :branch_name, :stdout, :stdin
     def initialize(message_path, branch_name, stdout = $stdout, stdin = $stdin)
       self.message_path = message_path
@@ -14,22 +17,22 @@ module FitCommit
     end
 
     def run
-      return true if empty_commit?
+      return EXIT_CODE_ALLOW_COMMIT if empty_commit?
       run_validators
-      return true if [errors, warnings].all?(&:empty?)
+      return EXIT_CODE_ALLOW_COMMIT if [errors, warnings].all?(&:empty?)
       print_results
 
       allow_commit = errors.empty?
       unless allow_commit
         stdout.print "\nForce commit? [y/n] "
-        return false unless stdin.gets =~ /y/i
+        return EXIT_CODE_REJECT_COMMIT unless stdin.gets =~ /y/i
         allow_commit = true
       end
 
       stdout.print "\n"
-      allow_commit
+      allow_commit ? EXIT_CODE_ALLOW_COMMIT : EXIT_CODE_REJECT_COMMIT
     rescue Interrupt # Ctrl-c
-      false
+      EXIT_CODE_REJECT_COMMIT
     end
 
     private
