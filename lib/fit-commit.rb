@@ -16,6 +16,6 @@ module FitCommit
   end
 
   def self.branch_name
-    `git branch | grep '^\*' | cut -b3-`.strip
+    `git name-rev --name-only HEAD`.strip
   end
 end
