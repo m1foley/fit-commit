@@ -1,3 +1,4 @@
+
 # Fit Commit
 
 A Git hook to validate your commit messages, based largely on Tim Pope's [authoritative guide](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
@@ -40,6 +41,33 @@ This creates a `.git/hooks/commit-msg` script which will automatically check you
 * **Summary Period**: Do not end your summary with a period.
 * **WIP**: Do not commit WIPs to master.
 * **Frat House**: No frat house commit messages in master.
+
+
+## FAQ
+
+### Can Fit Commit run in all my repos without having to install it each time?
+First set your global Git template directory:
+
+```
+$ git config --global init.templatedir '~/.git_template'
+```
+
+Now you can copy the hooks you want installed in new repos by default:
+
+```
+# From a repo where Fit Commit is already installed
+$ cp .git/hooks/commit-msg ~/.git_templates/hooks/commit-msg
+```
+
+To copy your default hooks into existing repos:
+
+```
+$ git init
+```
+
+### Fit Commit is too opinionated for me. What can I do?
+Fit Commit aims to be useful to everyone. If you can suggest an improvement to make it useful to more people, please open a GitHub Issue or Pull Request.
+
 
 ## Credits
 
