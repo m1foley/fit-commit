@@ -10,7 +10,7 @@ Adding a cool feature
 foobar foobar foobar,
 foobar foobar foobar foobar foobar foobar foobar foobar foobar foobar foobar
 
-1: Error: Message must use present imperative tense.
+1: Error: Message must use imperative present tense.
 2: Error: Second line must be blank.
 3: Error: Lines should be <= 72 chars. (76)
 
@@ -36,7 +36,7 @@ This creates a `.git/hooks/commit-msg` script which will automatically check you
 ## Validations
 
 * **Line Length**: All lines must be <= 72 chars (URLs excluded). First line should be <= 50 chars. Second line must be blank.
-* **Tense**: Message must use present imperative tense.
+* **Tense**: Message must use imperative present tense: "Fix bug" and not "Fixed bug" or "Fixes bug."
 * **Summary Period**: Do not end your summary with a period.
 * **WIP**: Do not commit WIPs to master.
 * **Frat House**: No frat house commit messages in master.

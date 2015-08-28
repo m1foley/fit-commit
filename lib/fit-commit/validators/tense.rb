@@ -64,12 +64,12 @@ module FitCommit
       )
 
       def validate_line(lineno, text, _branch_name)
-        if lineno == 1 && wrong_tense?(text)
-          add_error(lineno, "Message must use present imperative tense.")
+        if lineno == 1 && starts_with_blacklisted_verb?(text)
+          add_error(lineno, "Message must use imperative present tense.")
         end
       end
 
-      def wrong_tense?(text)
+      def starts_with_blacklisted_verb?(text)
         first_word = text.split.first(2).detect { |w| w =~ /\A\w/ }
         first_word && VERB_BLACKLIST.include?(first_word.downcase)
       end
