@@ -17,6 +17,7 @@ module FitCommit
   end
 
   def self.branch_name
-    ENV.fetch("GIT_BRANCH_NAME")
+    ENV["GIT_BRANCH_NAME"] ||
+      fail("Git branch not found. You might need to re-run `fit-commit install`")
   end
 end
