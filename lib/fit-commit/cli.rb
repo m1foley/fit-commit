@@ -10,11 +10,15 @@ module FitCommit
 
     def execute
       action_name = args.shift
-      if action_name == "install"
+      case action_name
+      when "install"
         FitCommit::Installer.new.install
+      when "uninstall"
+        FitCommit::Installer.new.uninstall
       else
         warn "fit-commit v#{FitCommit::VERSION}"
         warn "Usage: fit-commit install"
+        warn "Usage: fit-commit uninstall"
         false
       end
     end

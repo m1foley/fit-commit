@@ -1,7 +1,7 @@
 # Changelog
 
 ### master
-- N/A
+- Add `fit-commit uninstall` command
 
 ### v2.0.0 (2015-08-27)
 - Breaking changes made to Git hook. If upgrading from an older version you'll need to re-run `fit-commit install` in your repos.
