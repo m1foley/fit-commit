@@ -12,26 +12,37 @@ module FitCommit
     end
 
     def execute
-      action_name = args.shift
-      case action_name
-      when "install"
-        FitCommit::Installer.new.install
-        EXIT_CODE_SUCCESS
-      when "uninstall"
-        FitCommit::Installer.new.uninstall
-        EXIT_CODE_SUCCESS
-      else
-        print_help
-        EXIT_CODE_FAILURE
-      end
+      action_name = in_git_repo? ? args.shift : :fail_git_repo
+      action_name = :help unless respond_to?(action_name, :include_private)
+      send(action_name)
     end
 
     private
 
-    def print_help
-      warn "fit-commit v#{FitCommit::VERSION}"
-      warn "Usage: fit-commit install"
-      warn "Usage: fit-commit uninstall"
+    def help
+      $stderr.puts "fit-commit v#{FitCommit::VERSION}"
+      $stderr.puts "Usage: fit-commit install"
+      $stderr.puts "Usage: fit-commit uninstall"
+      EXIT_CODE_FAILURE
+    end
+
+    def install
+      FitCommit::Installer.new.install
+      EXIT_CODE_SUCCESS
+    end
+
+    def uninstall
+      FitCommit::Installer.new.uninstall
+      EXIT_CODE_SUCCESS
+    end
+
+    def in_git_repo?
+      File.exist?(".git")
+    end
+
+    def fail_git_repo
+      $stderr.puts "fit-commit: .git directory not found. Please run from your Git repository root."
+      EXIT_CODE_FAILURE
     end
   end
 end
