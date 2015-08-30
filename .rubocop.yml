@@ -1,0 +1,42 @@
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/MultilineOperationIndentation:
+  Enabled: false
+
+Style/AlignArray:
+  Enabled: false
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/FileName:
+  Enabled: false
