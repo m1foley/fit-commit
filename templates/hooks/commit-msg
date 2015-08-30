@@ -27,7 +27,7 @@ fi
 
 ${cmd} -rrubygems -e '
   begin
-    require "fit-commit"
+    require "fit_commit"
     true
   rescue LoadError => e
     $stderr.puts <<-MESSAGE

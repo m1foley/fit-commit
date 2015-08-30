@@ -1,4 +1,4 @@
-require "fit-commit/validators/base"
+require "fit_commit/validators/base"
 
 module FitCommit
   module Validators

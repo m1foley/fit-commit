@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "fit-commit/validators/tense"
+require "fit_commit/validators/tense"
 
 describe FitCommit::Validators::Tense do
   let(:validator) { FitCommit::Validators::Tense.new(commit_lines, branch_name) }

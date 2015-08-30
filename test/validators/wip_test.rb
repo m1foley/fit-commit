@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "fit-commit/validators/wip"
+require "fit_commit/validators/wip"
 
 describe FitCommit::Validators::Wip do
   let(:validator) { FitCommit::Validators::Wip.new(commit_lines, branch_name) }

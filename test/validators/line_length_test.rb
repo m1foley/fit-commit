@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "fit-commit/validators/line_length"
+require "fit_commit/validators/line_length"
 
 describe FitCommit::Validators::LineLength do
   let(:validator) { FitCommit::Validators::LineLength.new(commit_lines, branch_name) }

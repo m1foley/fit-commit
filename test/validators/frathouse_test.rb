@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "fit-commit/validators/frathouse"
+require "fit_commit/validators/frathouse"
 
 describe FitCommit::Validators::Frathouse do
   let(:validator) { FitCommit::Validators::Frathouse.new(commit_lines, branch_name) }

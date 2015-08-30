@@ -1,4 +1,4 @@
-require "fit-commit/runner"
+require "fit_commit/runner"
 
 module FitCommit
   def self.run

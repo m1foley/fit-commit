@@ -1,5 +1,5 @@
-require "fit-commit/has_errors"
-require "fit-commit/line"
+require "fit_commit/has_errors"
+require "fit_commit/line"
 
 module FitCommit
   class Runner

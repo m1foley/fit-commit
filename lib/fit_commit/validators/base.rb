@@ -1,4 +1,4 @@
-require "fit-commit/has_errors"
+require "fit_commit/has_errors"
 
 module FitCommit
   module Validators

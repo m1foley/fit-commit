@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "fit-commit/validators/summary_period"
+require "fit_commit/validators/summary_period"
 
 describe FitCommit::Validators::SummaryPeriod do
   let(:validator) { FitCommit::Validators::SummaryPeriod.new(commit_lines, branch_name) }

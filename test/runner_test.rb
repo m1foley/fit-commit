@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "fit-commit/runner"
+require "fit_commit/runner"
 
 describe FitCommit::Runner do
   after do
