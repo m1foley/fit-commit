@@ -1,6 +1,9 @@
 # Changelog
 
 ### master
+- N/A
+
+### v2.1.0 (2015-08-29)
 - Add `fit-commit uninstall` command
 
 ### v2.0.0 (2015-08-27)
