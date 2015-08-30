@@ -9,7 +9,6 @@ module FitCommit
       FileUtils.cp(HOOK_TEMPLATE_PATH, hook_path)
       FileUtils.chmod(0755, hook_path)
       $stdout.puts "Installed hook to #{hook_path}"
-      true
     end
 
     def uninstall
@@ -18,7 +17,6 @@ module FitCommit
       else
         $stdout.puts "Hook not found at #{hook_path}"
       end
-      true
     end
 
     private

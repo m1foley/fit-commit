@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "fit_commit/cli"
+
+exit_code = FitCommit::Cli.new(*ARGV).execute
+exit(exit_code)
