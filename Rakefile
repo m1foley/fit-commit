@@ -7,4 +7,4 @@ Rake::TestTask.new do |test|
   test.verbose = false
 end
 
-task :default => :test
+task default: :test

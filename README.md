@@ -19,7 +19,7 @@ Force commit? [y/n] ▊
 
 ## Prerequisites
 
-* Ruby
+* Ruby >= 1.9
 
 ## Installation
 
