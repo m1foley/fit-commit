@@ -1,7 +1,8 @@
 # Changelog
 
 ### master
-- N/A
+- Compatibility for all POSIX shells.
+- Improve error handling in Git hook.
 
 ### v2.1.0 (2015-08-29)
 - Add `fit-commit uninstall` command
