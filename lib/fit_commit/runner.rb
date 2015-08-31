@@ -38,13 +38,17 @@ module FitCommit
     private
 
     def run_validators
-      Dir[File.dirname(__FILE__) + "/validators/*.rb"].each { |file| require file }
-      FitCommit::Validators::Base.all.each do |validator_class|
+      validator_classes.each do |validator_class|
         validator = validator_class.new(lines, branch_name)
         validator.validate
         merge_errors(validator.errors)
         merge_warnings(validator.warnings)
       end
+    end
+
+    def validator_classes
+      Dir[File.dirname(__FILE__) + "/validators/*.rb"].each { |file| require file }
+      FitCommit::Validators::Base.all
     end
 
     def print_results
