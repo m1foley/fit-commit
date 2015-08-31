@@ -1,5 +1,6 @@
 require "fit_commit/has_errors"
 require "fit_commit/message_parser"
+require "fit_commit/validator_loader"
 
 module FitCommit
   class Runner
@@ -38,17 +39,15 @@ module FitCommit
     private
 
     def run_validators
-      validator_classes.each do |validator_class|
-        validator = validator_class.new(lines, branch_name)
-        validator.validate
+      validators.each do |validator|
+        validator.validate(lines)
         merge_errors(validator.errors)
         merge_warnings(validator.warnings)
       end
     end
 
-    def validator_classes
-      Dir[File.dirname(__FILE__) + "/validators/*.rb"].each { |file| require file }
-      FitCommit::Validators::Base.all
+    def validators
+      FitCommit::ValidatorLoader.new(branch_name).validators
     end
 
     def print_results

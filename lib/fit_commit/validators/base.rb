@@ -5,10 +5,10 @@ module FitCommit
     class Base
       include FitCommit::HasErrors
 
-      attr_accessor :lines, :branch_name
-      def initialize(lines, branch_name)
-        self.lines = lines
+      attr_accessor :branch_name, :config
+      def initialize(branch_name, config)
         self.branch_name = branch_name
+        self.config = default_config.merge(config)
       end
 
       @all = []
@@ -19,7 +19,7 @@ module FitCommit
         end
       end
 
-      def validate
+      def validate(lines)
         lines.each do |line|
           validate_line(line.lineno, line.text, branch_name)
         end
@@ -27,6 +27,14 @@ module FitCommit
 
       def validate_line(*)
         fail NotImplementedError, "Implement in subclass"
+      end
+
+      def default_config
+        { "Enabled" => true }
+      end
+
+      def enabled?
+        config["Enabled"]
       end
     end
   end
