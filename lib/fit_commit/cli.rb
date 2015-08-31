@@ -13,7 +13,7 @@ module FitCommit
 
     def execute
       action_name = in_git_repo? ? args.shift : :fail_git_repo
-      action_name = :help unless respond_to?(action_name, :include_private)
+      action_name = :help unless action_name && respond_to?(action_name, :include_private)
       send(action_name)
     end
 
