@@ -3,7 +3,7 @@ require "fit_commit/validators/summary_period"
 
 describe FitCommit::Validators::SummaryPeriod do
   let(:validator) { FitCommit::Validators::SummaryPeriod.new(commit_lines, branch_name) }
-  let(:commit_lines) { FitCommit::Line.from_array(commit_msg.split("\n")) }
+  let(:commit_lines) { FitCommit::Line.from_text_array(commit_msg.split("\n")) }
   let(:branch_name) { "any" }
 
   describe "summary ends with period" do

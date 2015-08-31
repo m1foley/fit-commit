@@ -3,7 +3,7 @@ require "fit_commit/validators/line_length"
 
 describe FitCommit::Validators::LineLength do
   let(:validator) { FitCommit::Validators::LineLength.new(commit_lines, branch_name) }
-  let(:commit_lines) { FitCommit::Line.from_array(commit_msg.split("\n")) }
+  let(:commit_lines) { FitCommit::Line.from_text_array(commit_msg.split("\n")) }
 
   let(:branch_name) { "any" }
 

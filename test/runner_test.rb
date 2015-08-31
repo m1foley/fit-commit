@@ -27,7 +27,7 @@ describe FitCommit::Runner do
 
   describe "empty commit msg" do
     let(:commit_msg) { "" }
-    it "returns truthy value without printing to stdout" do
+    it "allows commit without printing to stdout" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
       assert stdout.read.empty?
     end
@@ -35,7 +35,7 @@ describe FitCommit::Runner do
 
   describe "commit msg consists of all comments" do
     let(:commit_msg) { "\n#hi\n#yo\n#" }
-    it "returns truthy value without printing to stdout" do
+    it "allows commit without printing to stdout" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
       assert stdout.read.empty?
     end
@@ -43,7 +43,7 @@ describe FitCommit::Runner do
 
   describe "commit msg is present but no errors" do
     let(:commit_msg) { "hello\n\nhi\n#" }
-    it "returns truthy value without printing to stdout" do
+    it "allows commit without printing to stdout" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
       assert stdout.read.empty?
     end
@@ -56,7 +56,7 @@ describe FitCommit::Runner do
         "this difftext should be ignored." * 3
       ].join("\n")
     end
-    it "returns truthy value without printing to stdout" do
+    it "allows commit without printing to stdout" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
       assert stdout.read.empty?
     end
@@ -78,14 +78,14 @@ describe FitCommit::Runner do
 
     describe "user does not force commit" do
       let(:stdin) { StringIO.new("n") }
-      it "prints errors to stdout and returns falsey value" do
+      it "prints errors to stdout and rejects commit" do
         assert_equal FitCommit::Runner::EXIT_CODE_REJECT_COMMIT, call_runner
         assert_error_output
       end
     end
     describe "user forces commit" do
       let(:stdin) { StringIO.new("y") }
-      it "prints errors to stdout and returns truthy value" do
+      it "prints errors to stdout and allows commit" do
         assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
         assert_error_output
       end

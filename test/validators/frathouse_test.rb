@@ -3,7 +3,7 @@ require "fit_commit/validators/frathouse"
 
 describe FitCommit::Validators::Frathouse do
   let(:validator) { FitCommit::Validators::Frathouse.new(commit_lines, branch_name) }
-  let(:commit_lines) { FitCommit::Line.from_array(commit_msg.split("\n")) }
+  let(:commit_lines) { FitCommit::Line.from_text_array(commit_msg.split("\n")) }
 
   describe "master branch" do
     let(:branch_name) { "master" }
