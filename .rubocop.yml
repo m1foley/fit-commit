@@ -40,3 +40,6 @@ Style/GuardClause:
 
 Style/FileName:
   Enabled: false
+
+Style/DotPosition:
+  EnforcedStyle: trailing
