@@ -10,7 +10,8 @@ describe FitCommit::ValidatorLoader do
     {
       "FitCommit::Validators::SummaryPeriod" => { "Enabled" => true },
       "FitCommit::Validators::Tense" => { "Enabled" => false },
-      "FitCommit::Validators::Wip" => nil
+      "FitCommit::Validators::Wip" => nil,
+      "FitCommit::Validators::Frathouse" => { "Enabled" => ["bar", /\Abaz+/] }
       # "FitCommit::Validators::LineLength" => (not in config)
     }
   end
@@ -29,5 +30,25 @@ describe FitCommit::ValidatorLoader do
 
   it "loads validators that have an empty config for some reason" do
     assert validators.any? { |v| v.is_a? FitCommit::Validators::Wip }
+  end
+
+  describe "non-boolean options for Enabled" do
+    it "doesn't load validators with a non-matching string/regex Enabled values" do
+      assert validators.none? { |v| v.is_a? FitCommit::Validators::Frathouse }
+    end
+
+    describe "validator has a matching string Enabled value" do
+      let(:branch_name) { "bar" }
+      it "loads validator" do
+        assert validators.any? { |v| v.is_a? FitCommit::Validators::Frathouse }
+      end
+    end
+
+    describe "validator has a matching regex Enabled value" do
+      let(:branch_name) { "bazzz" }
+      it "loads validator" do
+        assert validators.any? { |v| v.is_a? FitCommit::Validators::Frathouse }
+      end
+    end
   end
 end

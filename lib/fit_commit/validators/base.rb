@@ -34,7 +34,19 @@ module FitCommit
       end
 
       def enabled?
-        config["Enabled"]
+        if config["Enabled"].is_a?(Array)
+          config["Enabled"].any? { |pattern| matches_branch?(pattern) }
+        else
+          config["Enabled"]
+        end
+      end
+
+      def matches_branch?(pattern)
+        if pattern.is_a?(Regexp)
+          pattern =~ branch_name
+        else
+          pattern == branch_name
+        end
       end
     end
   end
