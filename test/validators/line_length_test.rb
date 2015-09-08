@@ -26,9 +26,7 @@ describe FitCommit::Validators::LineLength do
       end
     end
     describe "first line is over warning limit" do
-      let(:commit_msg) do
-        "x" * (FitCommit::Validators::LineLength::FIRST_LINE_MAX_LENGTH + 1)
-      end
+      let(:commit_msg) { "x" * 51 }
       it "has a warning" do
         validator.validate(commit_lines)
         assert_empty validator.errors
@@ -36,13 +34,22 @@ describe FitCommit::Validators::LineLength do
       end
     end
     describe "first line is over error limit" do
-      let(:commit_msg) do
-        "x" * (FitCommit::Validators::LineLength::LINE_MAX_LENGTH + 1)
-      end
+      let(:commit_msg) { "x" * 73 }
       it "has an error and no warning" do
         validator.validate(commit_lines)
         assert_equal 1, validator.errors[1].size
         assert_empty validator.warnings
+      end
+    end
+    describe "SummaryWarnLength modified in config" do
+      let(:config) { {"SummaryWarnLength" => 5} }
+      describe "first line is over modified warning limit" do
+        let(:commit_msg) { "x" * 6 }
+        it "has a warning" do
+          validator.validate(commit_lines)
+          assert_empty validator.errors
+          assert_equal 1, validator.warnings[1].size
+        end
       end
     end
   end
@@ -56,9 +63,7 @@ describe FitCommit::Validators::LineLength do
       end
     end
     describe "second line is not empty and too long" do
-      let(:commit_msg) do
-        "foo\n" + ("x" * (FitCommit::Validators::LineLength::LINE_MAX_LENGTH + 1))
-      end
+      let(:commit_msg) { "foo\n" + ("x" * 73) }
       it "only mentions blank error" do
         validator.validate(commit_lines)
         assert_equal 1, validator.errors[2].size
@@ -85,23 +90,46 @@ describe FitCommit::Validators::LineLength do
   end
   describe "body text" do
     describe "line is over length limit" do
-      let(:commit_msg) do
-        "foo\n\n" + ("x" * (FitCommit::Validators::LineLength::LINE_MAX_LENGTH + 1))
-      end
+      let(:commit_msg) { "foo\n\n" + ("x" * 73) }
       it "has error" do
         validator.validate(commit_lines)
         assert_equal 1, validator.errors[3].size
         assert_empty validator.warnings
       end
     end
-    describe "line is equal to length limit" do
-      let(:commit_msg) do
-        "foo\n\n" + ("x" * FitCommit::Validators::LineLength::LINE_MAX_LENGTH)
-      end
+    describe "line is over length limit and has an URL" do
+      let(:commit_msg) { "foo\n\nhttps://" + ("x" * 100) }
       it "does not have error" do
         validator.validate(commit_lines)
         assert_empty validator.errors
         assert_empty validator.warnings
+      end
+      describe "AllowLongUrls modified in config" do
+        let(:config) { {"AllowLongUrls" => false} }
+        it "has error" do
+          validator.validate(commit_lines)
+          assert_equal 1, validator.errors[3].size
+          assert_empty validator.warnings
+        end
+      end
+    end
+    describe "line is equal to length limit" do
+      let(:commit_msg) { "foo\n\n" + ("x" * 72) }
+      it "does not have error" do
+        validator.validate(commit_lines)
+        assert_empty validator.errors
+        assert_empty validator.warnings
+      end
+    end
+    describe "MaxLineLength modified in config" do
+      let(:config) { {"MaxLineLength" => 5} }
+      describe "line is over modified limit" do
+        let(:commit_msg) { "foo\n\n" + ("x" * 6) }
+        it "has error" do
+          validator.validate(commit_lines)
+          assert_equal 1, validator.errors[3].size
+          assert_empty validator.warnings
+        end
       end
     end
   end
