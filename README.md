@@ -38,9 +38,46 @@ This creates a `.git/hooks/commit-msg` script which will automatically check you
 * **Line Length**: All lines must be <= 72 chars (URLs excluded). First line should be <= 50 chars. Second line must be blank.
 * **Tense**: Message must use imperative present tense: "Fix bug" and not "Fixed bug" or "Fixes bug."
 * **Summary Period**: Do not end your summary with a period.
-* **WIP**: Do not commit WIPs to shared branches (`master` by default).
-* **Frat House**: No frat house commit messages in shared branches (`master` by default).
+* **WIP**: Do not commit WIPs to shared branches.
+* **Frat House**: No frat house commit messages in shared branches.
 
+## Configuration
+
+Settings are read from these files, in increasing precedence: `/etc/fit_commit.yml`, `$HOME/.fit_commit.yml`, `config/fit_commit.yml`, `./.fit_commit.yml`.
+
+The default settings are:
+
+```yaml
+---
+Validators/LineLength:
+  Enabled: true
+  MaxLineLength: 72
+  SummaryWarnLength: 50
+  AllowLongUrls: true
+Validators/Tense:
+  Enabled: true
+Validators/SummaryPeriod:
+  Enabled: true
+Validators/Wip:
+  Enabled:
+    - master
+Validators/Frathouse:
+  Enabled:
+    - master
+```
+
+The `Enabled` property accepts multiple formats:
+
+```yaml
+# true/false are branch agnostic
+Validators/Foo:
+  Enabled: false
+# Array of String/Regex matching each branch for which it's enabled
+Validators/Bar:
+  Enabled:
+    - master
+    - !ruby/regexp /\Afoo.+bar/
+```
 
 ## FAQ
 
