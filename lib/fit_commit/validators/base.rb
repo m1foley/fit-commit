@@ -20,9 +20,7 @@ module FitCommit
       end
 
       def validate(lines)
-        lines.each do |line|
-          validate_line(line.lineno, line.text, branch_name)
-        end
+        lines.each { |line| validate_line(line.lineno, line.text) }
       end
 
       def validate_line(*)

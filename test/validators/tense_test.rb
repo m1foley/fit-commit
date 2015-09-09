@@ -6,7 +6,7 @@ describe FitCommit::Validators::Tense do
   let(:validator) { FitCommit::Validators::Tense.new(branch_name, config) }
   let(:commit_lines) { FitCommit::Line.from_text_array(commit_msg.split("\n")) }
   let(:config) { {} }
-  let(:branch_name) { "anybranch" }
+  let(:branch_name) { "any" }
 
   describe "uses incorrect tense on first line" do
     let(:commit_msg) { "Changed something" }

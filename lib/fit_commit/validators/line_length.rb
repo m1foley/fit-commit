@@ -3,7 +3,7 @@ require "fit_commit/validators/base"
 module FitCommit
   module Validators
     class LineLength < Base
-      def validate_line(lineno, text, _branch_name)
+      def validate_line(lineno, text)
         if lineno == 1 && text.empty?
           add_error(lineno, "First line cannot be blank.")
         elsif lineno == 2 && !text.empty?

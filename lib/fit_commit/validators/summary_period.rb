@@ -3,7 +3,7 @@ require "fit_commit/validators/base"
 module FitCommit
   module Validators
     class SummaryPeriod < Base
-      def validate_line(lineno, text, _branch_name)
+      def validate_line(lineno, text)
         if lineno == 1 && text.end_with?(".")
           add_error(lineno, "Do not end your summary with a period.")
         end

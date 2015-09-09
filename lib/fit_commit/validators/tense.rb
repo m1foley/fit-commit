@@ -63,7 +63,7 @@ module FitCommit
         uses       using        used
       )
 
-      def validate_line(lineno, text, _branch_name)
+      def validate_line(lineno, text)
         if lineno == 1 && starts_with_blacklisted_verb?(text)
           add_error(lineno, "Message must use imperative present tense.")
         end
