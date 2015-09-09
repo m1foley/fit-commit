@@ -7,4 +7,8 @@ Rake::TestTask.new do |test|
   test.verbose = false
 end
 
+task :console do
+  exec "irb -r fit-commit -I ./lib"
+end
+
 task default: :test
