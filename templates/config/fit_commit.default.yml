@@ -1,0 +1,16 @@
+---
+Validators/LineLength:
+  Enabled: true
+  MaxLineLength: 72
+  SummaryWarnLength: 50
+  AllowLongUrls: true
+Validators/Tense:
+  Enabled: true
+Validators/SummaryPeriod:
+  Enabled: true
+Validators/Wip:
+  Enabled:
+    - master
+Validators/Frathouse:
+  Enabled:
+    - master

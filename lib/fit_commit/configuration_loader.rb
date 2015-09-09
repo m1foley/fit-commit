@@ -12,7 +12,11 @@ module FitCommit
 
     def all_filepaths
       # sorted by increasing precedence
-      [system_filepath, user_filepath, config_filepath, local_filepath]
+      [default_filepath, system_filepath, user_filepath, config_filepath, local_filepath]
+    end
+
+    def default_filepath
+      File.expand_path("../../../templates/config/fit_commit.default.yml", __FILE__)
     end
 
     def system_filepath

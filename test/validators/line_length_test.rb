@@ -1,11 +1,12 @@
-require "minitest/autorun"
+require File.expand_path "../validator_helper.rb", __FILE__
 require "fit_commit/validators/line_length"
 require "fit_commit/line"
 
 describe FitCommit::Validators::LineLength do
   let(:validator) { FitCommit::Validators::LineLength.new(branch_name, config) }
   let(:commit_lines) { FitCommit::Line.from_text_array(commit_msg.split("\n")) }
-  let(:config) { {} }
+  let(:default_config) { default_config_for("Validators/LineLength") }
+  let(:config) { default_config }
   let(:branch_name) { "any" }
 
   describe "first line" do
@@ -42,7 +43,7 @@ describe FitCommit::Validators::LineLength do
       end
     end
     describe "SummaryWarnLength modified in config" do
-      let(:config) { { "SummaryWarnLength" => 5 } }
+      let(:config) { default_config.merge("SummaryWarnLength" => 5) }
       describe "first line is over modified warning limit" do
         let(:commit_msg) { "x" * 6 }
         it "has a warning" do
@@ -105,7 +106,7 @@ describe FitCommit::Validators::LineLength do
         assert_empty validator.warnings
       end
       describe "AllowLongUrls modified in config" do
-        let(:config) { { "AllowLongUrls" => false } }
+        let(:config) { default_config.merge("AllowLongUrls" => false) }
         it "has error" do
           validator.validate(commit_lines)
           assert_equal 1, validator.errors[3].size
@@ -122,7 +123,7 @@ describe FitCommit::Validators::LineLength do
       end
     end
     describe "MaxLineLength modified in config" do
-      let(:config) { { "MaxLineLength" => 5 } }
+      let(:config) { default_config.merge("MaxLineLength" => 5) }
       describe "line is over modified limit" do
         let(:commit_msg) { "foo\n\n" + ("x" * 6) }
         it "has error" do

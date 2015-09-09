@@ -8,10 +8,6 @@ module FitCommit
           add_error(lineno, "Do not commit WIPs to shared branches.")
         end
       end
-
-      def default_config
-        super.merge("Enabled" => ["master"])
-      end
     end
   end
 end

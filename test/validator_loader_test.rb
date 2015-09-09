@@ -8,28 +8,22 @@ describe FitCommit::ValidatorLoader do
   let(:branch_name) { "foo" }
   let(:configuration) do
     {
-      "FitCommit::Validators::Wip" => { "Enabled" => true },
+      "FitCommit::Validators::LineLength" => { "Enabled" => false },
       "FitCommit::Validators::Tense" => { "Enabled" => false },
-      "FitCommit::Validators::SummaryPeriod" => nil,
+      "FitCommit::Validators::SummaryPeriod" => { "Enabled" => true },
+      "FitCommit::Validators::Wip" => { "Enabled" => true },
       "FitCommit::Validators::Frathouse" => { "Enabled" => ["bar", /\Abaz+/] }
-      # "FitCommit::Validators::LineLength" => (not in config)
     }
   end
 
-  it "loads explicitly enabled validators" do
+  it "loads enabled validators" do
+    assert validators.any? { |v| v.is_a? FitCommit::Validators::SummaryPeriod }
     assert validators.any? { |v| v.is_a? FitCommit::Validators::Wip }
   end
 
-  it "loads validators not mentioned in configuration" do
-    assert validators.any? { |v| v.is_a? FitCommit::Validators::LineLength }
-  end
-
   it "doesn't load disabled validators" do
+    assert validators.none? { |v| v.is_a? FitCommit::Validators::LineLength }
     assert validators.none? { |v| v.is_a? FitCommit::Validators::Tense }
-  end
-
-  it "loads validators that have an empty config for some reason" do
-    assert validators.any? { |v| v.is_a? FitCommit::Validators::SummaryPeriod }
   end
 
   describe "non-boolean options for Enabled" do

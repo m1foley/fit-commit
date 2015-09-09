@@ -8,7 +8,7 @@ module FitCommit
       attr_accessor :branch_name, :config
       def initialize(branch_name, config)
         self.branch_name = branch_name
-        self.config = default_config.merge(config)
+        self.config = config
       end
 
       @all = []
@@ -27,15 +27,12 @@ module FitCommit
         fail NotImplementedError, "Implement in subclass"
       end
 
-      def default_config
-        { "Enabled" => true }
-      end
-
       def enabled?
-        if config["Enabled"].is_a?(Array)
-          config["Enabled"].any? { |pattern| matches_branch?(pattern) }
+        enabled_val = config.fetch("Enabled")
+        if enabled_val.is_a?(Array)
+          enabled_val.any? { |pattern| matches_branch?(pattern) }
         else
-          config["Enabled"]
+          enabled_val
         end
       end
 

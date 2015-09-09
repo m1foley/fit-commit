@@ -26,24 +26,15 @@ module FitCommit
       end
 
       def max_line_length
-        config["MaxLineLength"]
+        config.fetch("MaxLineLength")
       end
 
       def summary_warn_length
-        config["SummaryWarnLength"]
+        config.fetch("SummaryWarnLength")
       end
 
       def allow_long_urls?
-        config["AllowLongUrls"]
-      end
-
-      def default_config
-        super.merge(
-          "Enabled" => true,
-          "MaxLineLength" => 72,
-          "SummaryWarnLength" => 50,
-          "AllowLongUrls" => true
-        )
+        config.fetch("AllowLongUrls")
       end
     end
   end

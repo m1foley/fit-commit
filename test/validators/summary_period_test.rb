@@ -1,11 +1,12 @@
-require "minitest/autorun"
+require File.expand_path "../validator_helper.rb", __FILE__
 require "fit_commit/validators/summary_period"
 require "fit_commit/line"
 
 describe FitCommit::Validators::SummaryPeriod do
   let(:validator) { FitCommit::Validators::SummaryPeriod.new(branch_name, config) }
   let(:commit_lines) { FitCommit::Line.from_text_array(commit_msg.split("\n")) }
-  let(:config) { {} }
+  let(:default_config) { default_config_for("Validators/SummaryPeriod") }
+  let(:config) { default_config }
   let(:branch_name) { "any" }
 
   describe "summary ends with period" do

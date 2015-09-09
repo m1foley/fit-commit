@@ -9,10 +9,6 @@ module FitCommit
           add_error(lineno, "No frat house commit messages in shared branches.")
         end
       end
-
-      def default_config
-        super.merge("Enabled" => ["master"])
-      end
     end
   end
 end

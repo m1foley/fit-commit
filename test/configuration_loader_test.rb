@@ -9,12 +9,14 @@ describe FitCommit::ConfigurationLoader do
   end
 
   let(:global_configuration) do
-    subject.stub :system_filepath, (system_file ? system_file.path : "nofile") do
-      subject.stub :user_filepath, (user_file ? user_file.path : "nofile") do
-        subject.stub :config_filepath, "nofile" do
-          subject.stub :local_filepath, "nofile" do
-            subject.stub :git_top_level, "." do
-              subject.global_configuration
+    subject.stub :default_filepath, "nofile" do
+      subject.stub :system_filepath, (system_file ? system_file.path : "nofile") do
+        subject.stub :user_filepath, (user_file ? user_file.path : "nofile") do
+          subject.stub :config_filepath, "nofile" do
+            subject.stub :local_filepath, "nofile" do
+              subject.stub :git_top_level, "." do
+                subject.global_configuration
+              end
             end
           end
         end
