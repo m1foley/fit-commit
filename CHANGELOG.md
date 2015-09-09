@@ -3,6 +3,9 @@
 ### master
 - N/A
 
+### v2.2.0 (2015-09-09)
+- Configuration files to customize behavior.
+
 ### v2.1.1 (2015-08-31)
 - Compatibility for all POSIX shells.
 
