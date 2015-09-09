@@ -43,9 +43,9 @@ This creates a `.git/hooks/commit-msg` script which will automatically check you
 
 ## Configuration
 
-Settings are read from these files, in increasing precedence: `/etc/fit_commit.yml`, `$HOME/.fit_commit.yml`, `config/fit_commit.yml`, `./.fit_commit.yml`.
+Settings are read from these files in increasing precedence: `/etc/fit_commit.yml`, `$HOME/.fit_commit.yml`, `config/fit_commit.yml`, `./.fit_commit.yml`.
 
-The default settings are:
+These are the default settings that can be overridden:
 
 ```yaml
 ---
@@ -69,7 +69,7 @@ Validators/Frathouse:
 The `Enabled` property accepts multiple formats:
 
 ```yaml
-# true/false are branch agnostic
+# true/false to enable/disable the validation (branch agnostic)
 Validators/Foo:
   Enabled: false
 # Array of String/Regex matching each branch for which it's enabled
