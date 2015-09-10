@@ -9,11 +9,11 @@ module FitCommit
     EXIT_CODE_ALLOW_COMMIT  = 0
     EXIT_CODE_REJECT_COMMIT = 1
 
-    attr_accessor :message_path, :branch_name, :stdout, :stdin
-    def initialize(message_path, branch_name, stdout = $stdout, stdin = $stdin)
+    attr_accessor :message_path, :branch_name, :stderr, :stdin
+    def initialize(message_path, branch_name, stderr = $stderr, stdin = $stdin)
       self.message_path = message_path
       self.branch_name = branch_name
-      self.stdout = stdout
+      self.stderr = stderr
       self.stdin = stdin
     end
 
@@ -25,12 +25,12 @@ module FitCommit
 
       allow_commit = errors.empty?
       unless allow_commit
-        stdout.print "\nForce commit? [y/n] "
+        stderr.print "\nForce commit? [y/n] "
         return EXIT_CODE_REJECT_COMMIT unless stdin.gets =~ /y/i
         allow_commit = true
       end
 
-      stdout.print "\n"
+      stderr.print "\n"
       allow_commit ? EXIT_CODE_ALLOW_COMMIT : EXIT_CODE_REJECT_COMMIT
     rescue Interrupt # Ctrl-c
       EXIT_CODE_REJECT_COMMIT
@@ -52,16 +52,16 @@ module FitCommit
 
     def print_results
       unless errors.empty?
-        stdout.puts lines
-        stdout.print "\n"
+        stderr.puts lines
+        stderr.print "\n"
       end
 
       (errors.keys | warnings.keys).sort.each do |lineno|
         errors[lineno].each do |error|
-          stdout.puts "#{lineno}: Error: #{error}"
+          stderr.puts "#{lineno}: Error: #{error}"
         end
         warnings[lineno].each do |warning|
-          stdout.puts "#{lineno}: Warning: #{warning}"
+          stderr.puts "#{lineno}: Warning: #{warning}"
         end
       end
     end

@@ -8,7 +8,7 @@ describe FitCommit::Runner do
 
   def call_runner
     exit_code = runner.run
-    stdout.rewind
+    stderr.rewind
     exit_code
   end
 
@@ -18,34 +18,34 @@ describe FitCommit::Runner do
       f.close
     end
   end
-  let(:stdout) { StringIO.new }
+  let(:stderr) { StringIO.new }
   let(:stdin) { StringIO.new }
   let(:branch_name) { "any" }
   let(:runner) do
-    FitCommit::Runner.new(commit_msg_file.path, branch_name, stdout, stdin)
+    FitCommit::Runner.new(commit_msg_file.path, branch_name, stderr, stdin)
   end
 
   describe "empty commit msg" do
     let(:commit_msg) { "" }
-    it "allows commit without printing to stdout" do
+    it "allows commit without printing to stderr" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
-      assert stdout.read.empty?
+      assert stderr.read.empty?
     end
   end
 
   describe "commit msg consists of all comments" do
     let(:commit_msg) { "\n#hi\n#yo\n#" }
-    it "allows commit without printing to stdout" do
+    it "allows commit without printing to stderr" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
-      assert stdout.read.empty?
+      assert stderr.read.empty?
     end
   end
 
   describe "commit msg is present but no errors" do
     let(:commit_msg) { "hello\n\nhi\n#" }
-    it "allows commit without printing to stdout" do
+    it "allows commit without printing to stderr" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
-      assert stdout.read.empty?
+      assert stderr.read.empty?
     end
   end
 
@@ -56,9 +56,9 @@ describe FitCommit::Runner do
         "this difftext should be ignored." * 3
       ].join("\n")
     end
-    it "allows commit without printing to stdout" do
+    it "allows commit without printing to stderr" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
-      assert stdout.read.empty?
+      assert stderr.read.empty?
     end
   end
 
@@ -66,26 +66,26 @@ describe FitCommit::Runner do
     let(:commit_msg) { "foo.\nbar" }
 
     def assert_error_output
-      stdout_lines = stdout.read.lines.map(&:chomp)
-      assert_equal 7, stdout_lines.size
-      assert_equal commit_msg, stdout_lines[0..1].join("\n")
-      assert_empty stdout_lines[2]
-      assert_match(/\A1: Error: /, stdout_lines[3])
-      assert_match(/\A2: Error: /, stdout_lines[4])
-      assert_empty stdout_lines[5]
-      assert_equal "Force commit? [y/n] ", stdout_lines[6]
+      stderr_lines = stderr.read.lines.map(&:chomp)
+      assert_equal 7, stderr_lines.size
+      assert_equal commit_msg, stderr_lines[0..1].join("\n")
+      assert_empty stderr_lines[2]
+      assert_match(/\A1: Error: /, stderr_lines[3])
+      assert_match(/\A2: Error: /, stderr_lines[4])
+      assert_empty stderr_lines[5]
+      assert_equal "Force commit? [y/n] ", stderr_lines[6]
     end
 
     describe "user does not force commit" do
       let(:stdin) { StringIO.new("n") }
-      it "prints errors to stdout and rejects commit" do
+      it "prints errors to stderr and rejects commit" do
         assert_equal FitCommit::Runner::EXIT_CODE_REJECT_COMMIT, call_runner
         assert_error_output
       end
     end
     describe "user forces commit" do
       let(:stdin) { StringIO.new("y") }
-      it "prints errors to stdout and allows commit" do
+      it "prints errors to stderr and allows commit" do
         assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
         assert_error_output
       end
