@@ -86,13 +86,14 @@ First set your global Git template directory:
 
 ```
 $ git config --global init.templatedir '~/.git_template'
+$ mkdir -p ~/.git_template/hooks
 ```
 
 Now you can copy the hooks you want installed in new repos by default:
 
 ```
 # From a repo where Fit Commit is already installed
-$ cp .git/hooks/commit-msg ~/.git_templates/hooks/commit-msg
+$ cp .git/hooks/commit-msg ~/.git_template/hooks/commit-msg
 ```
 
 To copy your default hooks into existing repos:
