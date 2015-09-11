@@ -102,6 +102,14 @@ To copy your default hooks into existing repos:
 $ git init
 ```
 
+### Who decided these rules?
+Fit Commit aims to enforce *community standards*. The two influential guides on the subject are:
+
+- [Tim Pope's blog](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
+- [The official Git documentation](http://git.kernel.org/cgit/git/git.git/tree/Documentation/SubmittingPatches?id=HEAD)
+
+The Git community has largely (but not completely) coalesced around these standards. [Chris Beams](http://chris.beams.io/posts/git-commit/) and the [Pro Git book](https://git-scm.com/book) also provide good summaries on why we have them.
+
 ### Fit Commit is too opinionated for me. What can I do?
 Fit Commit aims to be useful to everyone. If you can suggest an improvement to make it useful to more people, please open a GitHub Issue or Pull Request.
 
