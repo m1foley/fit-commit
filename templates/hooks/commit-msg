@@ -27,7 +27,7 @@ if [ ! -r "$COMMIT_MESSAGE_PATH" ]; then
   exit 0
 fi
 
-export GIT_BRANCH_NAME=`git name-rev --name-only HEAD`
+export GIT_BRANCH_NAME=`git symbolic-ref --short HEAD`
 if [ -z "$GIT_BRANCH_NAME" ]; then
   >&2 echo "fit-commit: WARNING: Skipping checks because the Git branch cannot be determined."
   >&2 echo "fit-commit: Please submit a bug report with the project:"
