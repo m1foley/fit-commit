@@ -110,8 +110,8 @@ Fit Commit aims to enforce *community standards*. The two influential guides on 
 
 The Git community has largely (but not completely) coalesced around these standards. [Chris Beams](http://chris.beams.io/posts/git-commit/) and the [Pro Git book](https://git-scm.com/book) also provide good summaries on why we have them.
 
-### Fit Commit is too opinionated for me. What can I do?
-Fit Commit aims to be useful to everyone. If you can suggest an improvement to make it useful to more people, please open a GitHub Issue or Pull Request.
+### How can I improve Fit Commit?
+Fit Commit aims to be useful to everyone. If you can suggest an improvement to make it useful to more people, please open a GitHub Issue or Pull Request. See [CONTRIBUTING.md](CONTRIBUTING.md) for more info.
 
 
 ## Credits
