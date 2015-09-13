@@ -7,23 +7,27 @@ describe FitCommit::ValidatorLoader do
   let(:loader) { FitCommit::ValidatorLoader.new(branch_name, configuration) }
   let(:branch_name) { "foo" }
   let(:configuration) do
-    {
-      "FitCommit::Validators::LineLength" => { "Enabled" => false },
-      "FitCommit::Validators::Tense" => { "Enabled" => false },
-      "FitCommit::Validators::SummaryPeriod" => { "Enabled" => true },
-      "FitCommit::Validators::Wip" => { "Enabled" => true },
-      "FitCommit::Validators::Frathouse" => { "Enabled" => ["bar", /\Abaz+/] }
-    }
+    # Starting with all disabled because every validator needs at least a
+    # default entry.
+    # The ones specified here are the ones we care about testing.
+    all_disabled_configuration.merge(
+      FitCommit::Validators::LineLength.name => { "Enabled" => false },
+      FitCommit::Validators::Wip.name => { "Enabled" => true },
+      FitCommit::Validators::Frathouse.name => { "Enabled" => ["bar", /\Abaz+/] }
+    )
+  end
+  let(:all_disabled_configuration) do
+    FitCommit::Validators::Base.all.each_with_object({}) do |v, config|
+      config[v.name] = { "Enabled" => false }
+    end
   end
 
   it "loads enabled validators" do
-    assert validators.any? { |v| v.is_a? FitCommit::Validators::SummaryPeriod }
     assert validators.any? { |v| v.is_a? FitCommit::Validators::Wip }
   end
 
   it "doesn't load disabled validators" do
     assert validators.none? { |v| v.is_a? FitCommit::Validators::LineLength }
-    assert validators.none? { |v| v.is_a? FitCommit::Validators::Tense }
   end
 
   describe "non-boolean options for Enabled" do
