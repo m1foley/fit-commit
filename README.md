@@ -38,6 +38,7 @@ This creates a `.git/hooks/commit-msg` script which will automatically check you
 * **Line Length**: All lines must be <= 72 chars (URLs excluded). First line should be <= 50 chars. Second line must be blank.
 * **Tense**: Message must use imperative present tense: "Fix bug" and not "Fixed bug" or "Fixes bug."
 * **Summary Period**: Do not end your summary with a period.
+* **Capitalize Subject**: Begin all subject lines with a capital letter.
 * **WIP**: Do not commit WIPs to shared branches.
 * **Frat House**: No frat house commit messages in shared branches.
 
@@ -57,6 +58,8 @@ Validators/LineLength:
 Validators/Tense:
   Enabled: true
 Validators/SummaryPeriod:
+  Enabled: true
+Validators/CapitalizeSubject:
   Enabled: true
 Validators/Wip:
   Enabled:

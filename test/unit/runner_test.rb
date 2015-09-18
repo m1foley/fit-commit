@@ -42,7 +42,7 @@ describe FitCommit::Runner do
   end
 
   describe "commit msg is present but no errors" do
-    let(:commit_msg) { "hello\n\nhi\n#" }
+    let(:commit_msg) { "Hello\n\nhi\n#" }
     it "allows commit without printing to stderr" do
       assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
       assert stderr.read.empty?
@@ -51,7 +51,7 @@ describe FitCommit::Runner do
 
   describe "commit msg in verbose format" do
     let(:commit_msg) do
-      ["foo", "", "#",
+      ["Foo", "", "#",
         "# ------------------------ >8 ------------------------",
         "this difftext should be ignored." * 3
       ].join("\n")
@@ -67,13 +67,14 @@ describe FitCommit::Runner do
 
     def assert_error_output
       stderr_lines = stderr.read.lines.map(&:chomp)
-      assert_equal 7, stderr_lines.size
+      assert_equal 8, stderr_lines.size
       assert_equal commit_msg, stderr_lines[0..1].join("\n")
       assert_empty stderr_lines[2]
       assert_match(/\A1: Error: /, stderr_lines[3])
-      assert_match(/\A2: Error: /, stderr_lines[4])
-      assert_empty stderr_lines[5]
-      assert_equal "Force commit? [y/n] ", stderr_lines[6]
+      assert_match(/\A1: Error: /, stderr_lines[4])
+      assert_match(/\A2: Error: /, stderr_lines[5])
+      assert_empty stderr_lines[6]
+      assert_equal "Force commit? [y/n] ", stderr_lines[7]
     end
 
     describe "user does not force commit" do
