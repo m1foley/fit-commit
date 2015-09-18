@@ -3,6 +3,10 @@
 ### master
 - N/A
 
+### v3.0.0 (2015-09-18)
+- Rename SummaryPeriod validator to SubjectPeriod (can break existing config files)
+- Add CapitalizeSubject validator
+
 ### v2.2.2 (2015-09-11)
 - Fix bug where it wasn't working on the first commit of a repo.
 
