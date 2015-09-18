@@ -2,11 +2,11 @@
 Validators/LineLength:
   Enabled: true
   MaxLineLength: 72
-  SummaryWarnLength: 50
+  SubjectWarnLength: 50
   AllowLongUrls: true
 Validators/Tense:
   Enabled: true
-Validators/SummaryPeriod:
+Validators/SubjectPeriod:
   Enabled: true
 Validators/CapitalizeSubject:
   Enabled: true

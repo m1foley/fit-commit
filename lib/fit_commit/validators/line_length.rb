@@ -5,15 +5,15 @@ module FitCommit
     class LineLength < Base
       def validate_line(lineno, text)
         if lineno == 1 && text.empty?
-          add_error(lineno, "First line cannot be blank.")
+          add_error(lineno, "Subject line cannot be blank.")
         elsif lineno == 2 && !text.empty?
           add_error(lineno, "Second line must be blank.")
         elsif line_too_long?(text)
           add_error(lineno, format("Lines should be <= %i chars. (%i)",
             max_line_length, text.length))
-        elsif lineno == 1 && text.length > summary_warn_length
-          add_warning(lineno, format("First line should be <= %i chars. (%i)",
-            summary_warn_length, text.length))
+        elsif lineno == 1 && text.length > subject_warn_length
+          add_warning(lineno, format("Subject line should be <= %i chars. (%i)",
+            subject_warn_length, text.length))
         end
       end
 
@@ -29,8 +29,8 @@ module FitCommit
         config.fetch("MaxLineLength")
       end
 
-      def summary_warn_length
-        config.fetch("SummaryWarnLength")
+      def subject_warn_length
+        config.fetch("SubjectWarnLength")
       end
 
       def allow_long_urls?

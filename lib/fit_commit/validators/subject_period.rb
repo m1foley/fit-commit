@@ -2,10 +2,10 @@ require "fit_commit/validators/base"
 
 module FitCommit
   module Validators
-    class SummaryPeriod < Base
+    class SubjectPeriod < Base
       def validate_line(lineno, text)
         if lineno == 1 && text.end_with?(".")
-          add_error(lineno, "Do not end your summary with a period.")
+          add_error(lineno, "Do not end your subject line with a period.")
         end
       end
     end

@@ -1,15 +1,15 @@
 require File.expand_path "../validator_helper.rb", __FILE__
-require "fit_commit/validators/summary_period"
+require "fit_commit/validators/subject_period"
 require "fit_commit/line"
 
-describe FitCommit::Validators::SummaryPeriod do
-  let(:validator) { FitCommit::Validators::SummaryPeriod.new(branch_name, config) }
+describe FitCommit::Validators::SubjectPeriod do
+  let(:validator) { FitCommit::Validators::SubjectPeriod.new(branch_name, config) }
   let(:commit_lines) { FitCommit::Line.from_text_array(commit_msg.split("\n")) }
-  let(:default_config) { default_config_for("Validators/SummaryPeriod") }
+  let(:default_config) { default_config_for("Validators/SubjectPeriod") }
   let(:config) { default_config }
   let(:branch_name) { "any" }
 
-  describe "summary ends with period" do
+  describe "subject ends with period" do
     let(:commit_msg) { "foo bar." }
     it "has error" do
       validator.validate(commit_lines)
@@ -17,7 +17,7 @@ describe FitCommit::Validators::SummaryPeriod do
       assert_empty validator.warnings
     end
   end
-  describe "summary does not end with period" do
+  describe "subject does not end with period" do
     let(:commit_msg) { "foo bar\n\nhi." }
     it "does not have errors/warnings" do
       validator.validate(commit_lines)

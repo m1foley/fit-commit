@@ -42,8 +42,8 @@ describe FitCommit::Validators::LineLength do
         assert_empty validator.warnings
       end
     end
-    describe "SummaryWarnLength modified in config" do
-      let(:config) { default_config.merge("SummaryWarnLength" => 5) }
+    describe "SubjectWarnLength modified in config" do
+      let(:config) { default_config.merge("SubjectWarnLength" => 5) }
       describe "first line is over modified warning limit" do
         let(:commit_msg) { "x" * 6 }
         it "has a warning" do
