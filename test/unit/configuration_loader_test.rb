@@ -9,11 +9,11 @@ describe FitCommit::ConfigurationLoader do
   end
 
   let(:global_configuration) do
-    subject.stub :default_filepath, "nofile" do
-      subject.stub :system_filepath, (system_file ? system_file.path : "nofile") do
-        subject.stub :user_filepath, (user_file ? user_file.path : "nofile") do
-          subject.stub :config_filepath, "nofile" do
-            subject.stub :local_filepath, "nofile" do
+    subject.stub :default_filepath, "/dev/null" do
+      subject.stub :system_filepath, (system_file ? system_file.path : "/dev/null") do
+        subject.stub :user_filepath, (user_file ? user_file.path : "/dev/null") do
+          subject.stub :config_filepath, "/dev/null" do
+            subject.stub :local_filepath, "/dev/null" do
               subject.stub :git_top_level, "." do
                 subject.global_configuration
               end
@@ -59,7 +59,7 @@ describe FitCommit::ConfigurationLoader do
     let(:system_file) { tempfile("system_file", system_file_content) }
     let(:user_file) { tempfile("user_file", user_file_content) }
     let(:system_file_content) do
-      "Foo/Bar:\n  Baz: false\nQux/Norf/Blah:\n  - !ruby/regexp /\\Afoo/"
+      "Foo/Bar:\n  Baz: false\nQux/Norf/Blah:\n  Foobar:\n    - !ruby/regexp /\\Afoo/\n  Booyah: false"
     end
     let(:user_file_content) do
       "Qux/Norf/Blah:\n  Foobar: true\nBuz:\n  - hi"
@@ -68,7 +68,7 @@ describe FitCommit::ConfigurationLoader do
     it "is a merged configuration that takes precedence into account" do
       expected = {
         "FitCommit::Foo::Bar" => { "Baz" => false },
-        "FitCommit::Qux::Norf::Blah" => { "Foobar" => true },
+        "FitCommit::Qux::Norf::Blah" => { "Foobar" => true, "Booyah" => false },
         "FitCommit::Buz" => ["hi"]
       }
       assert_equal expected, global_configuration

@@ -4,7 +4,9 @@ module FitCommit
   class ConfigurationLoader
     def global_configuration
       all_filepaths.each_with_object({}) do |filepath, config|
-        config.merge!(read_config(filepath))
+        config.merge!(read_config(filepath)) do |_key, oldval, newval|
+          oldval.merge(newval)
+        end
       end
     end
 
