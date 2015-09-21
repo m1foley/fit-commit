@@ -51,7 +51,7 @@ module FitCommit
     end
 
     def load_yaml(path)
-      content = YAML.load_file(path) if File.exist?(path)
+      content = YAML.load_file(path) if File.readable?(path)
       content || {}
     rescue => e
       raise e, "Error parsing config file: #{e.message}"
