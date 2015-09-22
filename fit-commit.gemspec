@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.email              = ["foley3@gmail.com"]
   gem.homepage           = "https://github.com/m1foley/fit-commit"
   gem.summary            = "A Git hook to validate your commit messages"
-  gem.description        = "A Git hook to validate your commit messages, based largely on Tim Pope's authoritative guide."
+  gem.description        = "A Git hook to validate your commit messages based on community standards."
   gem.files              = `git ls-files`.split("\n")
   gem.executables        = ["fit-commit"]
   gem.default_executable = "fit-commit"
