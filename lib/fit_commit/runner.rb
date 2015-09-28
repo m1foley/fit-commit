@@ -22,21 +22,29 @@ module FitCommit
       run_validators
       return EXIT_CODE_ALLOW_COMMIT if [errors, warnings].all?(&:empty?)
       print_results
+      allow_commit = errors.empty? || ask_force_commit
 
-      allow_commit = errors.empty?
-      unless allow_commit
-        stderr.print "\nForce commit? [y/n] "
-        return EXIT_CODE_REJECT_COMMIT unless stdin.gets =~ /y/i
-        allow_commit = true
+      if allow_commit
+        stderr.print "\n"
+        EXIT_CODE_ALLOW_COMMIT
+      else
+        EXIT_CODE_REJECT_COMMIT
       end
-
-      stderr.print "\n"
-      allow_commit ? EXIT_CODE_ALLOW_COMMIT : EXIT_CODE_REJECT_COMMIT
     rescue Interrupt # Ctrl-c
       EXIT_CODE_REJECT_COMMIT
     end
 
     private
+
+    def ask_force_commit
+      return unless interactive?
+      stderr.print "\nForce commit? [y/n] "
+      stdin.gets =~ /y/i
+    end
+
+    def interactive?
+      stdin.tty?
+    end
 
     def run_validators
       validators.each do |validator|
