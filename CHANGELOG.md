@@ -1,5 +1,8 @@
 # Changelog
 
+### v3.1.0 (2015-09-27)
+- Allow execution from scripts and GUI clients
+
 ### v3.0.1 (2015-09-21)
 - Allow granular configuration overrides
 
