@@ -65,10 +65,17 @@ describe FitCommit::Runner do
   describe "commit msg contains errors" do
     let(:commit_msg) { "foo.\nbar" }
 
-    def assert_error_output(interactive: true)
+    def assert_error_output(interactive: true, includes_edit: false)
       stderr_lines = stderr.read.lines.map(&:chomp)
-      expected_lines = interactive ? 8 : 6
-      assert_equal expected_lines, stderr_lines.size
+      if interactive
+        if includes_edit
+          assert_equal 13, stderr_lines.size
+        else
+          assert_equal 8, stderr_lines.size
+        end
+      else
+        assert_equal 6, stderr_lines.size
+      end
       assert_equal commit_msg, stderr_lines[0..1].join("\n")
       assert_empty stderr_lines[2]
       assert_match(/\A1: Error: /, stderr_lines[3])
@@ -76,7 +83,7 @@ describe FitCommit::Runner do
       assert_match(/\A2: Error: /, stderr_lines[5])
       if interactive
         assert_empty stderr_lines[6]
-        assert_equal "Force commit? [y/n] ", stderr_lines[7]
+        assert_match(/\AForce commit\? \[y\/n\/e\] /, stderr_lines[7])
       end
     end
 
@@ -100,6 +107,56 @@ describe FitCommit::Runner do
       it "prints errors to stderr and allows commit" do
         assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
         assert_error_output
+      end
+    end
+    describe "user edits commit" do
+      let(:stdin) { fake_tty("e") }
+      describe "editor fails to save" do
+        it "rejects commit" do
+          def runner.edit_message
+            nil # fail code
+          end
+          assert_equal FitCommit::Runner::EXIT_CODE_REJECT_COMMIT, call_runner
+          assert_error_output
+        end
+      end
+      describe "edited message is valid" do
+        before do
+          def runner.edit_message
+            File.open(message_path, "w") do |f|
+              f.print "Valid message"
+            end
+            :success_code
+          end
+        end
+        it "allows commit" do
+          assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
+          assert_error_output
+        end
+      end
+      describe "edited message is invalid" do
+        before do
+          def runner.edit_message
+            File.open(message_path, "w") do |f|
+              f.print "invalid message."
+            end
+            :success_code
+          end
+        end
+        describe "user forces second commit" do
+          let(:stdin) { fake_tty("e\ny") }
+          it "asks again and accepts commit" do
+            assert_equal FitCommit::Runner::EXIT_CODE_ALLOW_COMMIT, call_runner
+            assert_error_output(includes_edit: true)
+          end
+        end
+        describe "user doesn't force second commit" do
+          let(:stdin) { fake_tty("e\nn") }
+          it "asks again and rejects commit" do
+            assert_equal FitCommit::Runner::EXIT_CODE_REJECT_COMMIT, call_runner
+            assert_error_output(includes_edit: true)
+          end
+        end
       end
     end
     describe "TTY not available" do

@@ -25,6 +25,14 @@ module FitCommit
       merge_hashes(warnings, other_warnings)
     end
 
+    def clear_errors
+      @errors = Hash.new([])
+    end
+
+    def clear_warnings
+      @warnings = Hash.new([])
+    end
+
     private
 
     def merge_hashes(error_hash, other_hash)

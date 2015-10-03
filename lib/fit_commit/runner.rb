@@ -18,11 +18,13 @@ module FitCommit
     end
 
     def run
-      return EXIT_CODE_ALLOW_COMMIT if empty_commit?
-      run_validators
-      return EXIT_CODE_ALLOW_COMMIT if [errors, warnings].all?(&:empty?)
-      print_results
-      allow_commit = errors.empty? || ask_force_commit
+      allow_commit = retry_on_user_edit do
+        return EXIT_CODE_ALLOW_COMMIT if empty_commit?
+        run_validators
+        return EXIT_CODE_ALLOW_COMMIT if [errors, warnings].all?(&:empty?)
+        print_results
+        errors.empty? || ask_force_commit
+      end
 
       if allow_commit
         stderr.print "\n"
@@ -36,10 +38,23 @@ module FitCommit
 
     private
 
+    StartOverOnEditException = Class.new(StandardError)
+
+    def retry_on_user_edit
+      yield
+    rescue StartOverOnEditException
+      clear_lines
+      clear_errors
+      clear_warnings
+      edit_message && retry
+    end
+
     def ask_force_commit
       return unless interactive?
-      stderr.print "\nForce commit? [y/n] "
-      stdin.gets =~ /y/i
+      stderr.print "\nForce commit? [y/n/e] "
+      input = stdin.gets
+      fail StartOverOnEditException if input =~ /e/i
+      input =~ /y/i
     end
 
     def interactive?
@@ -78,8 +93,24 @@ module FitCommit
       @lines ||= FitCommit::MessageParser.new(message_path).lines
     end
 
+    def clear_lines
+      @lines = nil
+    end
+
     def empty_commit?
       lines.all?(&:empty?)
+    end
+
+    def edit_message
+      system(editor, message_path)
+    end
+
+    DEFAULT_EDITOR = "vim"
+
+    def editor
+      editor = ENV["EDITOR"]
+      editor = DEFAULT_EDITOR unless editor && editor != "none"
+      editor
     end
   end
 end
