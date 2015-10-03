@@ -43,3 +43,12 @@ Style/FileName:
 
 Style/DotPosition:
   EnforcedStyle: trailing
+
+Style/IndentationWidth:
+  Enabled: false
+
+Style/ElseAlignment:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
