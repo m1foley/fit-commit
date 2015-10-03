@@ -1,5 +1,8 @@
 # Changelog
 
+### v3.2.0 (2015-10-03)
+- Add option to re-open text editor
+
 ### v3.1.0 (2015-09-27)
 - Allow execution from scripts and GUI clients
 
