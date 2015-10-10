@@ -101,6 +101,13 @@ describe FitCommit::Runner do
         assert_equal FitCommit::Runner::EXIT_CODE_REJECT_COMMIT, call_runner
         assert_error_output
       end
+      describe "empty branch name" do
+        let(:branch_name) { "" }
+        it "prints errors to stderr and rejects commit" do
+          assert_equal FitCommit::Runner::EXIT_CODE_REJECT_COMMIT, call_runner
+          assert_error_output
+        end
+      end
     end
     describe "user forces commit" do
       let(:stdin) { fake_tty("y") }

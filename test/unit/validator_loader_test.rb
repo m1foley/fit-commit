@@ -23,7 +23,7 @@ describe FitCommit::ValidatorLoader do
   end
 
   it "loads enabled validators" do
-    assert validators.any? { |v| v.is_a? FitCommit::Validators::Wip }
+    assert validators.one? { |v| v.is_a? FitCommit::Validators::Wip }
   end
 
   it "doesn't load disabled validators" do
@@ -31,22 +31,37 @@ describe FitCommit::ValidatorLoader do
   end
 
   describe "non-boolean options for Enabled" do
-    it "doesn't load validators with a non-matching string/regex Enabled values" do
-      assert validators.none? { |v| v.is_a? FitCommit::Validators::Frathouse }
+    describe "branch_name does not match validator" do
+      it "doesn't load validator" do
+        assert validators.none? { |v| v.is_a? FitCommit::Validators::Frathouse }
+      end
     end
 
-    describe "validator has a matching string Enabled value" do
+    describe "branch_name matches validator via String" do
       let(:branch_name) { "bar" }
       it "loads validator" do
-        assert validators.any? { |v| v.is_a? FitCommit::Validators::Frathouse }
+        assert validators.one? { |v| v.is_a? FitCommit::Validators::Frathouse }
       end
     end
 
-    describe "validator has a matching regex Enabled value" do
+    describe "branch_name matches validator via regex" do
       let(:branch_name) { "bazzz" }
       it "loads validator" do
-        assert validators.any? { |v| v.is_a? FitCommit::Validators::Frathouse }
+        assert validators.one? { |v| v.is_a? FitCommit::Validators::Frathouse }
       end
+    end
+  end
+
+  describe "branch_name is blank" do
+    let(:branch_name) { "" }
+    it "loads enabled validators" do
+      assert validators.one? { |v| v.is_a? FitCommit::Validators::Wip }
+    end
+    it "doesn't load disabled validators" do
+      assert validators.none? { |v| v.is_a? FitCommit::Validators::LineLength }
+    end
+    it "doesn't load validators that have non-boolean options for Enabled" do
+      assert validators.none? { |v| v.is_a? FitCommit::Validators::Frathouse }
     end
   end
 end
