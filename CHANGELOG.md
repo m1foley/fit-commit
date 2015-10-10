@@ -1,5 +1,8 @@
 # Changelog
 
+### v3.3.0 (2015-10-10)
+- Add support for custom validators
+
 ### v3.2.0 (2015-10-03)
 - Add option to re-open text editor
 
