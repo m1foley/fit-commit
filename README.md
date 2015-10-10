@@ -82,6 +82,46 @@ Validators/Bar:
     - !ruby/regexp /\Afoo.+bar/
 ```
 
+## Adding custom validators
+
+Create your custom validator as a `FitCommit::Validators::Base` subclass:
+
+```ruby
+module FitCommit
+  module Validators
+    class MyCustomValidator < Base
+      def validate_line(lineno, text)
+        if text =~ /sneak peak/i
+          add_error(lineno, "I think you mean 'sneak peek'.")
+        end
+      end
+    end
+  end
+end
+```
+
+`Require` the file and enable the validator in your config:
+
+```yaml
+FitCommit:
+  Require:
+    - somedir/my_custom_validator.rb
+Validators/MyCustomValidator:
+  Enabled: true
+```
+
+You can also publish your validator as a gem, and require it that way:
+
+```yaml
+FitCommit:
+  Require:
+    - my-custom-validator-gem
+Validators/MyCustomValidator:
+  Enabled: true
+```
+
+If others might find your validator useful, submit it as a Pull Request. If it's not useful for everyone, it can be disabled by default.
+
 ## FAQ
 
 ### Can Fit Commit run in all my repos without having to install it each time?

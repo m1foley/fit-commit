@@ -1,4 +1,4 @@
-require "minitest/autorun"
+require "test_helper"
 require "yaml"
 
 def default_config_for(key)

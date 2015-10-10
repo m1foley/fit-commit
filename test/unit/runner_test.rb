@@ -1,28 +1,22 @@
-require "minitest/autorun"
+require "test_helper"
 require "fit_commit/runner"
 
 describe FitCommit::Runner do
   after do
     commit_msg_file.unlink
   end
-
-  def call_runner
-    exit_code = runner.run
-    stderr.rewind
-    exit_code
-  end
-
-  let(:commit_msg_file) do
-    Tempfile.new("test-commit-msg").tap do |f|
-      f.write(commit_msg)
-      f.close
-    end
-  end
+  let(:commit_msg_file) { create_tempfile("test-commit-msg", commit_msg) }
   let(:stderr) { StringIO.new }
   let(:stdin) { StringIO.new }
   let(:branch_name) { "any" }
   let(:runner) do
     FitCommit::Runner.new(commit_msg_file.path, branch_name, stderr, stdin)
+  end
+
+  def call_runner
+    exit_code = runner.run
+    stderr.rewind
+    exit_code
   end
 
   describe "empty commit msg" do

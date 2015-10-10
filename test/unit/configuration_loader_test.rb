@@ -1,4 +1,4 @@
-require "minitest/autorun"
+require "test_helper"
 require "fit_commit/configuration_loader"
 
 describe FitCommit::ConfigurationLoader do
@@ -24,13 +24,6 @@ describe FitCommit::ConfigurationLoader do
     end
   end
 
-  def tempfile(filename, content)
-    Tempfile.new(filename).tap do |f|
-      f.write(content)
-      f.close
-    end
-  end
-
   describe "no configuration files present" do
     let(:system_file) { nil }
     let(:user_file) { nil }
@@ -41,7 +34,7 @@ describe FitCommit::ConfigurationLoader do
 
   describe "just one configuration file present" do
     let(:system_file) { nil }
-    let(:user_file) { tempfile("user_file", user_file_content) }
+    let(:user_file) { create_tempfile("user_file", user_file_content) }
     let(:user_file_content) do
       "Foo/Bar:\n  Baz: false\nQux/Norf/Blah:\n  - !ruby/regexp /\\Afoo/"
     end
@@ -53,23 +46,35 @@ describe FitCommit::ConfigurationLoader do
       }
       assert_equal expected, global_configuration
     end
+
+    describe "has a non-validation key" do
+      let(:user_file_content) do
+        "FitCommit:\n  Require:\n    - foo/bar"
+      end
+      it "doesn't try to namespace the key" do
+        expected = {
+          "FitCommit" => { "Require" => ["foo/bar"] }
+        }
+        assert_equal expected, global_configuration
+      end
+    end
   end
 
   describe "multiple configuration files present" do
-    let(:system_file) { tempfile("system_file", system_file_content) }
-    let(:user_file) { tempfile("user_file", user_file_content) }
+    let(:system_file) { create_tempfile("system_file", system_file_content) }
+    let(:user_file) { create_tempfile("user_file", user_file_content) }
     let(:system_file_content) do
       "Foo/Bar:\n  Baz: false\nQux/Norf/Blah:\n  Foobar:\n    - !ruby/regexp /\\Afoo/\n  Booyah: false"
     end
     let(:user_file_content) do
-      "Qux/Norf/Blah:\n  Foobar: true\nBuz:\n  - hi"
+      "Qux/Norf/Blah:\n  Foobar: true\nAbc/Buz:\n  - hi"
     end
 
     it "is a merged configuration that takes precedence into account" do
       expected = {
         "FitCommit::Foo::Bar" => { "Baz" => false },
         "FitCommit::Qux::Norf::Blah" => { "Foobar" => true, "Booyah" => false },
-        "FitCommit::Buz" => ["hi"]
+        "FitCommit::Abc::Buz" => ["hi"]
       }
       assert_equal expected, global_configuration
     end

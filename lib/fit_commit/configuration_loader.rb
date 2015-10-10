@@ -45,7 +45,7 @@ module FitCommit
 
     def read_config(path)
       load_yaml(path).each_with_object({}) do |(key, value), config|
-        translated_key = translate_class_name(key)
+        translated_key = translate_config_key(key)
         config[translated_key] = value
       end
     end
@@ -57,8 +57,9 @@ module FitCommit
       raise e, "Error parsing config file: #{e.message}"
     end
 
-    def translate_class_name(config_class_name)
-      "FitCommit::" + config_class_name.gsub("/", "::")
+    def translate_config_key(config_key)
+      return config_key unless config_key.include?("/")
+      "FitCommit::" + config_key.gsub("/", "::")
     end
   end
 end

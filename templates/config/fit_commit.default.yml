@@ -16,3 +16,5 @@ Validators/Wip:
 Validators/Frathouse:
   Enabled:
     - master
+Validators/Foobar:
+  Enabled: true

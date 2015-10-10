@@ -1,4 +1,4 @@
-require "minitest/autorun"
+require "test_helper"
 require "fit_commit/message_parser"
 
 describe FitCommit::MessageParser do
@@ -6,16 +6,8 @@ describe FitCommit::MessageParser do
     commit_msg_file.unlink
   end
 
-  let(:commit_msg_file) do
-    Tempfile.new("test-commit-msg").tap do |f|
-      f.write(commit_msg)
-      f.close
-    end
-  end
-
-  let(:lines) do
-    FitCommit::MessageParser.new(commit_msg_file.path).lines
-  end
+  let(:commit_msg_file) { create_tempfile("test-commit-msg", commit_msg) }
+  let(:lines) { FitCommit::MessageParser.new(commit_msg_file.path).lines }
 
   describe "empty commit msg" do
     let(:commit_msg) { "" }

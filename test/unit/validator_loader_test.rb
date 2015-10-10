@@ -1,4 +1,4 @@
-require "minitest/autorun"
+require "test_helper"
 require "fit_commit/validator_loader"
 Dir[File.dirname(__FILE__) + "/validators/*.rb"].each { |file| require file }
 
@@ -62,6 +62,49 @@ describe FitCommit::ValidatorLoader do
     end
     it "doesn't load validators that have non-boolean options for Enabled" do
       assert validators.none? { |v| v.is_a? FitCommit::Validators::Frathouse }
+    end
+  end
+
+  describe "custom validators required" do
+    after do
+      custom_validator_file.unlink
+    end
+
+    let(:custom_validator_file) do
+      create_tempfile(["my_custom_validator", ".rb"], custom_validator_code)
+    end
+
+    # Not actually subclassing FitCommit::Validators::Base because
+    # that affects the loaded validators for other tests.
+    let(:custom_validator_code) do
+      <<-EOF
+        class MyCustomValidator
+          attr_accessor :config
+          def initialize(_branch_name, config)
+            self.config = config
+          end
+          def enabled?
+            config.fetch("Enabled")
+          end
+        end
+      EOF
+    end
+
+    let(:configuration) do
+      all_disabled_configuration.merge(
+        "FitCommit" => { "Require" => [custom_validator_file.path] },
+        "MyCustomValidator" => { "Enabled" => true }
+      )
+    end
+
+    it "loads enabled custom validator" do
+      # stub which will be overridden when the custom validator file is loaded
+      MyCustomValidator = Class.new
+
+      FitCommit::Validators::Base.stub(:all, [MyCustomValidator]) do
+        assert_equal 1, validators.size
+        assert validators.first.is_a?(MyCustomValidator)
+      end
     end
   end
 end
