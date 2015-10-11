@@ -20,11 +20,26 @@ module FitCommit
       end
 
       def validate(lines)
-        lines.each { |line| validate_line(line.lineno, line.text) }
+        if validation_methods.empty?
+          fail NotImplementedError, "Implement a validation method in subclass."
+        end
+
+        validation_methods.each do |method|
+          case method
+          when :validate_line
+            lines.each { |line| validate_line(line.lineno, line.text) }
+          when :validate_lines
+            validate_lines(lines)
+          end
+        end
       end
 
-      def validate_line(*)
-        fail NotImplementedError, "Implement in subclass"
+      def validation_methods
+        [:validate_line, :validate_lines].select { |method| method_defined?(method) }
+      end
+
+      def method_defined?(method)
+        self.class.instance_methods.include?(method)
       end
 
       def enabled?

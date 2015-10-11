@@ -95,6 +95,12 @@ module FitCommit
           add_error(lineno, "I think you mean 'sneak peek'.")
         end
       end
+
+      def validate_lines(lines)
+        if not lines.any? { |line| line.text =~ /#\d+/ }
+          add_error(lines.last.lineno, "Oops! Seems you forgot to mention the related issue.")
+        end
+      end
     end
   end
 end
