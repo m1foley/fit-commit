@@ -82,7 +82,7 @@ Validators/Bar:
     - !ruby/regexp /\Afoo.+bar/
 ```
 
-## Adding custom validators
+## Adding Custom Validators
 
 Create your custom validator as a `FitCommit::Validators::Base` subclass:
 
