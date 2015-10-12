@@ -98,6 +98,19 @@ module FitCommit
     end
   end
 end
+
+# A validator can also validate the commit message as a whole:
+module FitCommit
+  module Validators
+    class MyCustomValidator < Base
+      def validate(lines)
+        if lines.none? { |line| line.text =~ /#\d+/ }
+          add_warning(lines.last.lineno, "Related issue not referenced.")
+        end
+      end
+    end
+  end
+end
 ```
 
 `Require` the file and enable the validator in your config:
