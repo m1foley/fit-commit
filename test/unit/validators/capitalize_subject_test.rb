@@ -17,6 +17,22 @@ describe FitCommit::Validators::CapitalizeSubject do
       assert_empty validator.warnings
     end
   end
+  describe "subject is fixup commit" do
+    let(:commit_msg) { "fixup! foo bar" }
+    it "does not have errors/warnings" do
+      validator.validate(commit_lines)
+      assert_empty validator.errors
+      assert_empty validator.warnings
+    end
+  end
+  describe "subject is squash commit" do
+    let(:commit_msg) { "squash! foo bar" }
+    it "does not have errors/warnings" do
+      validator.validate(commit_lines)
+      assert_empty validator.errors
+      assert_empty validator.warnings
+    end
+  end
   describe "subject is capitalized" do
     let(:commit_msg) { "Foo bar" }
     it "does not have errors/warnings" do
