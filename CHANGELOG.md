@@ -1,5 +1,8 @@
 # Changelog
 
+### v3.4.0 (2015-12-08)
+- Skip capitalization check for autosquash commits
+
 ### v3.3.0 (2015-10-10)
 - Add support for custom validators
 
