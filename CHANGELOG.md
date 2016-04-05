@@ -1,5 +1,8 @@
 # Changelog
 
+### v3.5.0 (2016-04-05)
+- All validations are enabled on all branches by default
+
 ### v3.4.0 (2015-12-08)
 - Skip capitalization check for autosquash commits
 
