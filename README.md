@@ -62,11 +62,9 @@ Validators/SubjectPeriod:
 Validators/CapitalizeSubject:
   Enabled: true
 Validators/Wip:
-  Enabled:
-    - master
+  Enabled: true
 Validators/Frathouse:
-  Enabled:
-    - master
+  Enabled: true
 ```
 
 The `Enabled` property accepts multiple formats:

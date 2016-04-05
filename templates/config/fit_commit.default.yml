@@ -11,10 +11,8 @@ Validators/SubjectPeriod:
 Validators/CapitalizeSubject:
   Enabled: true
 Validators/Wip:
-  Enabled:
-    - master
+  Enabled: true
 Validators/Frathouse:
-  Enabled:
-    - master
+  Enabled: true
 Validators/Foobar:
   Enabled: true
