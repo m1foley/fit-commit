@@ -174,4 +174,6 @@ Author: [Mike Foley](https://github.com/m1foley)
 
 Inspiration taken from: [Tim Pope](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html), [Jason Fox](https://gist.github.com/jasonrobertfox/8057124), [Addam Hardy](http://addamhardy.com/blog/2013/06/05/good-commit-messages-and-enforcing-them-with-git-hooks/), [pre-commit](https://github.com/jish/pre-commit)
 
-Similar projects: [gitlint](https://github.com/jorisroovers/gitlint) (written in Python)
+Similar projects:
+- [gitlint](https://github.com/jorisroovers/gitlint) (written in Python)
+- [fit-commit-js](https://www.npmjs.com/package/fit-commit-js) (Node.js package)
