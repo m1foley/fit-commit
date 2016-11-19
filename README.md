@@ -39,8 +39,8 @@ This creates a `.git/hooks/commit-msg` script which will automatically check you
 * **Tense**: Message must use imperative present tense: "Fix bug" and not "Fixed bug" or "Fixes bug."
 * **Subject Period**: Do not end your subject line with a period.
 * **Capitalize Subject**: Begin all subject lines with a capital letter.
-* **WIP**: Do not commit WIPs to shared branches.
 * **Frat House**: No frat house commit messages in shared branches.
+* **WIP**: Do not commit WIPs to shared branches (disabled by default)
 
 ## Configuration
 
@@ -61,10 +61,10 @@ Validators/SubjectPeriod:
   Enabled: true
 Validators/CapitalizeSubject:
   Enabled: true
-Validators/Wip:
-  Enabled: true
 Validators/Frathouse:
   Enabled: true
+Validators/Wip:
+  Enabled: false
 ```
 
 The `Enabled` property accepts multiple formats:

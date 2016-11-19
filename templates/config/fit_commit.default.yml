@@ -10,9 +10,7 @@ Validators/SubjectPeriod:
   Enabled: true
 Validators/CapitalizeSubject:
   Enabled: true
-Validators/Wip:
-  Enabled: true
 Validators/Frathouse:
   Enabled: true
-Validators/Foobar:
-  Enabled: true
+Validators/Wip:
+  Enabled: false
