@@ -6,7 +6,7 @@ module FitCommit
     class Frathouse < Base
       def validate_line(lineno, text)
         if Swearjar.default.profane?(text)
-          add_error(lineno, "No frat house commit messages in shared branches.")
+          add_error(lineno, "No frat house commit messages.")
         end
       end
     end
