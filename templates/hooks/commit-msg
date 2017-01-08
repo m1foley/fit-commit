@@ -20,8 +20,11 @@ fi
 
 export GIT_BRANCH_NAME=`git symbolic-ref --short HEAD 2> /dev/null`
 
-# find appropriate Ruby command
-if which rbenv > /dev/null 2>&1; then
+# Use bundler if fit-commit was installed using it
+# or find appropriate Ruby command
+if bundle show fit-commit > /dev/null 2>&1; then
+  cmd="bundle exec ruby"
+elif which rbenv > /dev/null 2>&1; then
   cmd="rbenv exec ruby"
 elif which ruby-rvm-env > /dev/null 2>&1; then
   cmd="ruby-rvm-env"
