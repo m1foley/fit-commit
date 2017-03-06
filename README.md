@@ -161,10 +161,15 @@ $ git init
 Fit Commit can be run outside of a Git hook context with a simple shell script:
 
 ```sh
-$ GIT_BRANCH_NAME=branch_name COMMIT_MESSAGE_PATH=path/to/message rbenv exec ruby -rrubygems -e 'require "fit_commit"; FitCommit.run'
+$ export GIT_BRANCH_NAME=branch_name
+$ export COMMIT_MESSAGE_PATH=path/to/message
+# Using Bundler
+$ bundle exec ruby -e 'require "fit_commit"; FitCommit.run'
+# Not using Bundler
+$ rbenv exec ruby -rrubygems -e 'require "fit_commit"; FitCommit.run'
 ```
 
-It exits with an error code if any errors are present, which will fail a build if it's part of a CI run. The configuration should be modified for CI to be more lenient, otherwise false positives will break the build too often.
+It exits with an error code if any errors are present, which will fail a build if it's part of a CI run.
 
 ### Who decided these rules?
 Fit Commit aims to enforce *community standards*. The two influential guides are:
