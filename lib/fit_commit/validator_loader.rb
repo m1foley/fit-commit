@@ -2,7 +2,6 @@ require "fit_commit/configuration_loader"
 
 module FitCommit
   class ValidatorLoader
-    attr_accessor :branch_name, :configuration
     def initialize(branch_name, configuration = load_configuration)
       self.branch_name = branch_name
       self.configuration = configuration
@@ -14,8 +13,10 @@ module FitCommit
 
     private
 
+    attr_accessor :branch_name, :configuration
+
     def load_configuration
-      FitCommit::ConfigurationLoader.new.global_configuration
+      FitCommit::ConfigurationLoader.default_configuration
     end
 
     def all_validators

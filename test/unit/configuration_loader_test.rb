@@ -2,81 +2,109 @@ require "test_helper"
 require "fit_commit/configuration_loader"
 
 describe FitCommit::ConfigurationLoader do
-  subject { FitCommit::ConfigurationLoader.new }
-
-  after do
-    [system_file, user_file].compact.each(&:unlink)
-  end
-
-  let(:global_configuration) do
-    subject.stub :default_filepath, "/dev/null" do
-      subject.stub :system_filepath, (system_file ? system_file.path : "/dev/null") do
-        subject.stub :user_filepath, (user_file ? user_file.path : "/dev/null") do
-          subject.stub :config_filepath, "/dev/null" do
-            subject.stub :local_filepath, "/dev/null" do
-              subject.stub :git_top_level, "." do
-                subject.global_configuration
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
   describe "no configuration files present" do
-    let(:system_file) { nil }
-    let(:user_file) { nil }
     it "is empty" do
-      assert_equal({}, global_configuration)
+      config = FitCommit::ConfigurationLoader.new(["/dev/null"]).configuration
+      assert_equal({}, config)
     end
   end
 
   describe "just one configuration file present" do
-    let(:system_file) { nil }
-    let(:user_file) { create_tempfile("user_file", user_file_content) }
-    let(:user_file_content) do
-      "Foo/Bar:\n  Baz: false\nQux/Norf/Blah:\n  - !ruby/regexp /\\Afoo/"
-    end
-
     it "is a configuration equal to that file" do
-      expected = {
+      config_content = <<~EOF
+        Foo/Bar:
+          Baz: false
+        Qux/Norf/Blah:
+          - !ruby/regexp /\\Afoo/
+      EOF
+      config_file_path = create_tempfile(config_content).path
+
+      expected_config = {
         "FitCommit::Foo::Bar" => { "Baz" => false },
         "FitCommit::Qux::Norf::Blah" => [/\Afoo/]
       }
-      assert_equal expected, global_configuration
+
+      config = FitCommit::ConfigurationLoader.new([config_file_path]).configuration
+      assert_equal expected_config, config
     end
 
-    describe "has a non-validation key" do
-      let(:user_file_content) do
-        "FitCommit:\n  Require:\n    - foo/bar"
-      end
+    describe "has a key without a slash" do
       it "doesn't try to namespace the key" do
-        expected = {
+        config_content = <<~EOF
+        FitCommit:
+          Require:
+            - foo/bar
+        EOF
+        config_file_path = create_tempfile(config_content).path
+
+        expected_config = {
           "FitCommit" => { "Require" => ["foo/bar"] }
         }
-        assert_equal expected, global_configuration
+
+        config = FitCommit::ConfigurationLoader.new([config_file_path]).configuration
+        assert_equal expected_config, config
       end
     end
   end
 
   describe "multiple configuration files present" do
-    let(:system_file) { create_tempfile("system_file", system_file_content) }
-    let(:user_file) { create_tempfile("user_file", user_file_content) }
-    let(:system_file_content) do
-      "Foo/Bar:\n  Baz: false\nQux/Norf/Blah:\n  Foobar:\n    - !ruby/regexp /\\Afoo/\n  Booyah: false"
-    end
-    let(:user_file_content) do
-      "Qux/Norf/Blah:\n  Foobar: true\nAbc/Buz:\n  - hi"
-    end
-
     it "is a merged configuration that takes precedence into account" do
-      expected = {
+      config1_content = <<~EOF
+        Foo/Bar:
+          Baz: false
+        Qux/Norf/Blah:
+          Foobar:
+            - !ruby/regexp /\\Afoo/
+          Booyah: false
+      EOF
+
+      config2_content = <<~EOF
+        Qux/Norf/Blah:
+          Foobar: true
+        Abc/Buz:
+          - hi
+      EOF
+
+      config_file_paths = [
+        create_tempfile(config1_content).path,
+        create_tempfile(config2_content).path
+      ]
+
+      expected_config = {
         "FitCommit::Foo::Bar" => { "Baz" => false },
         "FitCommit::Qux::Norf::Blah" => { "Foobar" => true, "Booyah" => false },
         "FitCommit::Abc::Buz" => ["hi"]
       }
-      assert_equal expected, global_configuration
+
+      config = FitCommit::ConfigurationLoader.new(config_file_paths).configuration
+      assert_equal expected_config, config
+    end
+  end
+
+  describe "default_configuration" do
+    it "loads configuration from default filepaths" do
+      config_content = <<~EOF
+        FitCommit:
+          Require:
+            - foo/bar
+      EOF
+      config_file_path = create_tempfile(config_content).path
+
+      expected_config = {
+        "FitCommit" => { "Require" => ["foo/bar"] }
+      }
+
+      config = FitCommit::ConfigurationLoader.stub(:default_filepaths, [config_file_path]) do
+        FitCommit::ConfigurationLoader.default_configuration
+      end
+      assert_equal expected_config, config
+    end
+  end
+
+  describe "gem_default_filepath" do
+    it "returns a valid filepath" do
+      gem_default_filepath = FitCommit::ConfigurationLoader.gem_default_filepath
+      assert File.exist?(gem_default_filepath)
     end
   end
 end

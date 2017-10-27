@@ -2,15 +2,12 @@ require "test_helper"
 require "fit_commit/runner"
 
 describe FitCommit::Runner do
-  after do
-    commit_msg_file.unlink
-  end
-  let(:commit_msg_file) { create_tempfile("test-commit-msg", commit_msg) }
+  let(:commit_msg_file_path) { create_tempfile(commit_msg).path }
   let(:stderr) { StringIO.new }
   let(:stdin) { StringIO.new }
   let(:branch_name) { "any" }
   let(:runner) do
-    FitCommit::Runner.new(commit_msg_file.path, branch_name, stderr, stdin)
+    FitCommit::Runner.new(commit_msg_file_path, branch_name, stderr, stdin)
   end
 
   def call_runner

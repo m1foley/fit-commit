@@ -2,12 +2,8 @@ require "test_helper"
 require "fit_commit/message_parser"
 
 describe FitCommit::MessageParser do
-  after do
-    commit_msg_file.unlink
-  end
-
-  let(:commit_msg_file) { create_tempfile("test-commit-msg", commit_msg) }
-  let(:lines) { FitCommit::MessageParser.new(commit_msg_file.path).lines }
+  let(:commit_msg_file_path) { create_tempfile(commit_msg).path }
+  let(:lines) { FitCommit::MessageParser.new(commit_msg_file_path).lines }
 
   describe "empty commit msg" do
     let(:commit_msg) { "" }

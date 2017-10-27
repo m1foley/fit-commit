@@ -2,46 +2,57 @@ require "yaml"
 
 module FitCommit
   class ConfigurationLoader
-    def global_configuration
-      all_filepaths.each_with_object({}) do |filepath, config|
+    SYSTEM_FILEPATH = "/etc/fit_commit.yml"
+    LOCAL_FILEPATH = ".fit_commit.yml"
+
+    def initialize(filepaths)
+      self.filepaths = filepaths
+    end
+
+    def self.default_configuration
+      new(default_filepaths).configuration
+    end
+
+    def configuration
+      filepaths.each_with_object({}) do |filepath, config|
         config.merge!(read_config(filepath)) do |_key, oldval, newval|
           oldval.merge(newval)
         end
       end
     end
 
-    private
-
-    def all_filepaths
-      # sorted by increasing precedence
-      [default_filepath, system_filepath, user_filepath, config_filepath, local_filepath]
+    def self.default_filepaths
+      [
+        gem_default_filepath,
+        SYSTEM_FILEPATH,
+        user_filepath,
+        config_filepath,
+        LOCAL_FILEPATH
+      ]
     end
 
-    def default_filepath
+    def self.gem_default_filepath
       File.expand_path("../../../templates/config/fit_commit.default.yml", __FILE__)
     end
 
-    def system_filepath
-      "/etc/fit_commit.yml"
-    end
-
-    def user_filepath
+    def self.user_filepath
       File.join(ENV["HOME"], ".fit_commit.yml")
     end
 
-    def config_filepath
+    def self.config_filepath
       File.join(git_top_level, "config", "fit_commit.yml")
     end
 
-    def local_filepath
-      ".fit_commit.yml"
-    end
-
-    def git_top_level
+    def self.git_top_level
       top_level = `git rev-parse --show-toplevel`.chomp.strip
       fail "Git repo not found! Please submit a bug report." if top_level == ""
       top_level
     end
+
+    private
+
+    # sorted by increasing precedence
+    attr_accessor :filepaths
 
     def read_config(path)
       load_yaml(path).each_with_object({}) do |(key, value), config|
