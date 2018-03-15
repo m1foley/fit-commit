@@ -45,6 +45,7 @@ module FitCommit
         removes    removing     removed
         renames    renaming     renamed
         reorders   reordering   reordered
+        replaces   replacing    replaced
         requires   requiring    required
         restores   restoring    restored
         sends      sending      sent
