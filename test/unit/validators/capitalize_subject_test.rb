@@ -9,8 +9,32 @@ describe FitCommit::Validators::CapitalizeSubject do
   let(:config) { default_config }
   let(:branch_name) { "any" }
 
-  describe "subject is not capitalized" do
+  describe "subject is uncapitalized" do
     let(:commit_msg) { "foo bar" }
+    it "has error" do
+      validator.validate(commit_lines)
+      assert_equal 1, validator.errors[1].size
+      assert_empty validator.warnings
+    end
+  end
+  describe "subject is a single uncapitalized word with no body (WIP message)" do
+    let(:commit_msg) { "foo" }
+    it "has a warning" do
+      validator.validate(commit_lines)
+      assert_empty validator.errors
+      assert_equal 1, validator.warnings[1].size
+    end
+  end
+  describe "test " do
+    let(:commit_msg) { "\nsdf" }
+    it "has a warning" do
+      validator.validate(commit_lines)
+      assert_empty validator.errors
+      assert_empty validator.warnings
+    end
+  end
+  describe "subject is a single uncapitalized word with a body" do
+    let(:commit_msg) { "foo\n\nbaz" }
     it "has error" do
       validator.validate(commit_lines)
       assert_equal 1, validator.errors[1].size
