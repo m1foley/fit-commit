@@ -17,12 +17,24 @@ describe FitCommit::Validators::CapitalizeSubject do
       assert_empty validator.warnings
     end
   end
-  describe "subject is a single uncapitalized word with no body (WIP message)" do
+  describe "subject is WIPlike (single uncapitalized word with no body)" do
     let(:commit_msg) { "foo" }
-    it "has a warning" do
-      validator.validate(commit_lines)
-      assert_empty validator.errors
-      assert_equal 1, validator.warnings[1].size
+
+    describe "WarnOnWiplikes is true" do
+      it "has a warning" do
+        validator.validate(commit_lines)
+        assert_empty validator.errors
+        assert_equal 1, validator.warnings[1].size
+      end
+    end
+
+    describe "WarnOnWiplikes is false" do
+      let(:config) { default_config.merge("WarnOnWiplikes" => false) }
+      it "has an error" do
+        validator.validate(commit_lines)
+        assert_equal 1, validator.errors[1].size
+        assert_empty validator.warnings
+      end
     end
   end
   describe "test " do

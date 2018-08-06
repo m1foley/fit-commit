@@ -61,6 +61,7 @@ Validators/SubjectPeriod:
   Enabled: true
 Validators/CapitalizeSubject:
   Enabled: true
+  WarnOnWiplikes: true
 Validators/Frathouse:
   Enabled: true
 Validators/Wip:

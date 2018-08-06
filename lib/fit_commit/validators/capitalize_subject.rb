@@ -9,7 +9,7 @@ module FitCommit
 
       def validate(lines)
         if lines[0].text =~ /\A[[:lower:]]/ && lines[0].text !~ AUTOSQUASH
-          if wip_message?(lines)
+          if ignore_on_wiplikes? && wiplike?(lines)
             add_warning(1, MESSAGE)
           else
             add_error(1, MESSAGE)
@@ -19,8 +19,12 @@ module FitCommit
 
       private
 
-      def wip_message?(lines)
+      def wiplike?(lines)
         lines[0].text =~ SINGLE_WORD && lines[1..-1].all?(&:empty?)
+      end
+
+      def ignore_on_wiplikes?
+        config.fetch("WarnOnWiplikes")
       end
     end
   end
