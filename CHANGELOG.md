@@ -1,5 +1,14 @@
 # Changelog
 
+### v3.8.0 (2018-08-06)
+- Add CapitalizeSubject config option to warn on WIPlikes
+
+### v3.7.0 (2017-01-07)
+- Run via Bundler if available
+
+### v3.6.0 (2016-11-18)
+- Disable WIP check by default
+
 ### v3.5.0 (2016-04-05)
 - All validations are enabled on all branches by default
 
