@@ -26,7 +26,7 @@ Gem::Specification.new do |gem|
     Read more: https://github.com/m1foley/fit-commit#readme
   EOF
 
-  gem.add_dependency("swearjar", "~> 1.0")
-  gem.add_development_dependency("minitest", "~> 5.8")
-  gem.add_development_dependency("rake", "~> 10.4")
+  gem.add_dependency("swearjar", "~> 1.3")
+  gem.add_development_dependency("minitest", "~> 5.11")
+  gem.add_development_dependency("rake", "~> 12.3")
 end
