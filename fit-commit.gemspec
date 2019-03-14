@@ -12,7 +12,6 @@ Gem::Specification.new do |gem|
   gem.description        = "A Git hook to validate your commit messages based on community standards."
   gem.files              = `git ls-files`.split("\n")
   gem.executables        = ["fit-commit"]
-  gem.default_executable = "fit-commit"
   gem.test_files         = `git ls-files -- test/*`.split("\n")
   gem.require_paths      = ["lib"]
   gem.extra_rdoc_files   = ["README.md"]
