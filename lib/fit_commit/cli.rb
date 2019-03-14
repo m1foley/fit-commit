@@ -23,7 +23,7 @@ module FitCommit
       $stderr.puts "fit-commit v#{FitCommit::VERSION}"
       $stderr.puts "Usage: fit-commit install"
       $stderr.puts "Usage: fit-commit uninstall"
-      EXIT_CODE_FAILURE
+      EXIT_CODE_SUCCESS
     end
 
     def install
