@@ -20,6 +20,14 @@ fi
 
 export GIT_BRANCH_NAME=`git symbolic-ref --short HEAD 2> /dev/null`
 
+# If this script is being run from a non interactive shell
+# (i.e. from within RubyMine) then we might need to
+# detect and initialise rbenv.
+if [ -d $HOME/.rbenv ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
+
 # Use bundler if fit-commit was installed using it
 # or find appropriate Ruby command
 if bundle show fit-commit > /dev/null 2>&1; then
