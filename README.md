@@ -74,10 +74,10 @@ The `Enabled` property accepts multiple formats:
 # true/false to enable/disable the validation (branch agnostic)
 Validators/Foo:
   Enabled: false
-# Array of String/Regex matching each branch for which it's enabled
+# Array of String or Regex matching each branch it's enabled on
 Validators/Bar:
   Enabled:
-    - master
+    - main
     - !ruby/regexp /\Afoo.+bar/
 ```
 

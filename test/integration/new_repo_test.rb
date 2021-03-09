@@ -33,7 +33,7 @@ describe "Install and run in a fresh Git repo" do
       assert_match(/^#{commit_message}/, results)
       assert_match(/^1: Error: /, results)
       refute_match(/Warning:/, results)
-      refute_match(/^\[master .+\]/, results)
+      refute_match(/^\[main .+\]/, results)
     end
   end
 
@@ -44,7 +44,7 @@ describe "Install and run in a fresh Git repo" do
       refute_match(/^#{commit_message}/, results)
       refute_match(/Error:/, results)
       refute_match(/Warning:/, results)
-      assert_match(/^\[master .+\] #{commit_message}/, results)
+      assert_match(/^\[main .+\] #{commit_message}/, results)
     end
   end
 
@@ -55,7 +55,7 @@ describe "Install and run in a fresh Git repo" do
       refute_match(/^#{commit_message}/, results)
       refute_match(/Error/, results)
       assert_match(/^1: Warning: /, results)
-      assert_match(/^\[master .+\] #{commit_message}/, results)
+      assert_match(/^\[main .+\] #{commit_message}/, results)
     end
   end
 end
