@@ -2,6 +2,9 @@ require "fit_commit/line"
 
 module FitCommit
   class MessageParser
+    GIT_VERBOSE_MARKER = "# ------------------------ >8 ------------------------"
+    COMMENT_REGEX = /\A#/
+
     attr_accessor :message_path
     def initialize(message_path)
       self.message_path = message_path
@@ -12,9 +15,6 @@ module FitCommit
     end
 
     private
-
-    GIT_VERBOSE_MARKER = "# ------------------------ >8 ------------------------"
-    COMMENT_REGEX = /\A#/
 
     def relevant_lines
       message_text.lines.each_with_object([]) do |line, relevant_lines|

@@ -42,6 +42,22 @@ describe FitCommit::Validators::LineLength do
         assert_empty validator.warnings
       end
     end
+    describe "first line is over error limit and has an URL" do
+      let(:commit_msg) { "foo https://" + ("x" * 70) }
+      it "has an error and no warning" do
+        validator.validate(commit_lines)
+        assert_equal 1, validator.errors[1].size
+        assert_empty validator.warnings
+      end
+    end
+    describe "merge commit is over error limit" do
+      let(:commit_msg) { "Merge branch '#{"x" * 30}' into #{"y" * 30}" }
+      it "does not have error" do
+        validator.validate(commit_lines)
+        assert_empty validator.errors
+        assert_empty validator.warnings
+      end
+    end
     describe "SubjectWarnLength modified in config" do
       let(:config) { default_config.merge("SubjectWarnLength" => 5) }
       describe "first line is over modified warning limit" do

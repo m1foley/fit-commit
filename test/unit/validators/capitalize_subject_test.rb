@@ -37,14 +37,6 @@ describe FitCommit::Validators::CapitalizeSubject do
       end
     end
   end
-  describe "test " do
-    let(:commit_msg) { "\nsdf" }
-    it "has a warning" do
-      validator.validate(commit_lines)
-      assert_empty validator.errors
-      assert_empty validator.warnings
-    end
-  end
   describe "subject is a single uncapitalized word with a body" do
     let(:commit_msg) { "foo\n\nbaz" }
     it "has error" do

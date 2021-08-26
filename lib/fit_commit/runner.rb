@@ -8,6 +8,7 @@ module FitCommit
 
     EXIT_CODE_ALLOW_COMMIT  = 0
     EXIT_CODE_REJECT_COMMIT = 1
+    DEFAULT_EDITOR = "vim"
 
     attr_accessor :message_path, :branch_name, :stderr, :stdin
     def initialize(message_path, branch_name, stderr = $stderr, stdin = $stdin)
@@ -104,8 +105,6 @@ module FitCommit
     def edit_message
       system(editor, message_path)
     end
-
-    DEFAULT_EDITOR = "vim"
 
     def editor
       editor = ENV["EDITOR"]
