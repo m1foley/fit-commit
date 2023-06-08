@@ -74,7 +74,7 @@ describe FitCommit::Runner do
       assert_match(/\A2: Error: /, stderr_lines[5])
       if interactive
         assert_empty stderr_lines[6]
-        assert_match(/\AForce commit\? \[y\/n\/e\] /, stderr_lines[7])
+        assert_match(/\ACommit anyway\? \[y\/n\/e\] /, stderr_lines[7])
       end
     end
 

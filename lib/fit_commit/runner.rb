@@ -52,7 +52,7 @@ module FitCommit
 
     def ask_force_commit
       return unless interactive?
-      stderr.print "\nForce commit? [y/n/e] "
+      stderr.print "\nCommit anyway? [y/n/e] "
       input = stdin.gets
       fail StartOverOnEditException if input =~ /e/i
       input =~ /y/i

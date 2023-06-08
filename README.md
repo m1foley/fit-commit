@@ -14,7 +14,7 @@ foobar foobar foobar foobar foobar foobar foobar foobar foobar foobar foobar
 2: Error: Second line must be blank.
 3: Error: Lines should be <= 72 chars. (76)
 
-Force commit? [y/n/e] ▊
+Commit anyway? [y/n/e] ▊
 ```
 
 ## Prerequisites

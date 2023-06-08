@@ -14,7 +14,7 @@ describe "Install and run in a fresh Git repo" do
     Dir.mktmpdir do |gitdir|
       PTY.spawn(shell_commands(gitdir)) do |pty_out, _pty_in, _pty_pid|
         if user_input
-          pty_out.expect(/Force commit\?/, 3) do |expect_out|
+          pty_out.expect(/Commit anyway\?/, 3) do |expect_out|
             output << Array(expect_out).join
             user_input
           end
